@@ -1,5 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+#*
+.~
 *.py[cod]
 *$py.class
 
@@ -25,6 +27,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+shell.nix
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
