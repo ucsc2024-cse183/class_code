@@ -1,8 +1,8 @@
-#! /usr/bin/bash
+#! /bin/bash
 cd $(dirname "$0")
 git pull origin main
 echo "Installing/upgrading Nix and required packages (not worries, not affecting your OS)"
-[ -f /etc/nix/nix.conf ] || curl -L https://nixos.org/nix/install | sh -s -- --daemon
+[ -f /etc/nix/nix.conf ] || curl -k -L https://nixos.org/nix/install | sh -s -- --daemon
 cat <<\EOF > shell.nix
 let
   nixpkgs-src = builtins.fetchTarball {
@@ -51,23 +51,22 @@ let
   shell = pkgs.mkShell {
     buildInputs = [
       # development environment
-      pkgs.busybox
+      # pkgs.busybox
       pkgs.openssh
-      pkgs.sshfs
+      # pkgs.sshfs
       pkgs.zip
-      pkgs.jed
       pkgs.mc
       pkgs.git
       pkgs.curl
       pkgs.htop
-      pkgs.ncdu
-      pkgs.dtach
+      # pkgs.ncdu
+      # pkgs.dtach
       vscodeWithExtensions
 
       # build and compile tools
-      pkgs.nodejs-slim
-      pkgs.nodePackages.npm
-      pkgs.nodePackages.webpack
+      # pkgs.nodejs-slim
+      # pkgs.nodePackages.npm
+      # pkgs.nodePackages.webpack
 
       # image and documentation tools
       pkgs.imagemagick
@@ -102,8 +101,6 @@ let
       $VENV_PATH/bin/pip install -U py4web
       source $VENV_PATH/bin/activate
       export PYTHONPATH=$VENV_PATH/${myPython.sitePackages}/:${pythonWithPkgs}/${pythonWithPkgs.sitePackages}:$PYTHONPATH
-      export EDITOR=jed
-      export GIT_EDITOR=jed
     '';
   };
 in shell
