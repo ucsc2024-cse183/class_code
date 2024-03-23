@@ -2,6 +2,7 @@
 cd $(dirname "$0")
 git pull origin main
 echo "Installing/upgrading Nix and required packages (not worries, not affecting your OS)"
+export NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1
 [ -f /etc/nix/nix.conf ] || curl -k -L https://nixos.org/nix/install | sh -s -- --daemon
 cat <<\EOF > shell.nix
 let
@@ -51,29 +52,18 @@ let
   shell = pkgs.mkShell {
     buildInputs = [
       # development environment
-      # pkgs.busybox
       pkgs.openssh
-      # pkgs.sshfs
       pkgs.zip
       pkgs.mc
       pkgs.git
-      pkgs.curl
-      pkgs.htop
-      # pkgs.ncdu
-      # pkgs.dtach
+      pkgs.nano
       vscodeWithExtensions
-
-      # build and compile tools
-      # pkgs.nodejs-slim
-      # pkgs.nodePackages.npm
-      # pkgs.nodePackages.webpack
 
       # image and documentation tools
       pkgs.imagemagick
       
       # packages and libraries
       pythonWithPkgs
-      # pkgs.redis
 
       # needed for compiling python libs
       pkgs.readline
@@ -101,6 +91,8 @@ let
       $VENV_PATH/bin/pip install -U py4web
       source $VENV_PATH/bin/activate
       export PYTHONPATH=$VENV_PATH/${myPython.sitePackages}/:${pythonWithPkgs}/${pythonWithPkgs.sitePackages}:$PYTHONPATH
+      export EDITOR=nano
+      export GIT_EDITOR=nano
     '';
   };
 in shell
