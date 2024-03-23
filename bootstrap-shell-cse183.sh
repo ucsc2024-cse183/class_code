@@ -73,7 +73,7 @@ let
       
       # packages and libraries
       pythonWithPkgs
-      pkgs.redis
+      # pkgs.redis
 
       # needed for compiling python libs
       pkgs.readline
