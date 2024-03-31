@@ -93,6 +93,7 @@ let
       export PYTHONPATH=$VENV_PATH/${myPython.sitePackages}/:${pythonWithPkgs}/${pythonWithPkgs.sitePackages}:$PYTHONPATH
       export EDITOR=nano
       export GIT_EDITOR=nano
+      alias grade=`pwd`/grade.py
     '';
   };
 in shell
