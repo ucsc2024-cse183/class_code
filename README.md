@@ -60,15 +60,17 @@ They are also to be submitted using crowdgrader.com.
 
 ### Grading
 
-Your score is computed in points, not percentages. Each assignment/project will earn you some points. Up to 12 points for each of the 5 assignemnts and up to 50 points for the final project. This means you can earn up to 110 points (not incuding extra cerdit). Anything above 93 points is an A in the class. This means you can miss an assignment and still get an A in the class. If you miss 2 assignments you can still get a B. 
+Your score is computed in points, not percentages. Each assignment/project will earn you some points. Up to 12 points for each of the 5 assignemnts and up to 50 points for the final project. This means you can earn up to 110 points (not incuding extra cerdit). Anything above 93 points is an A in the class. This means you can miss an assignment and still get an A in the class. If you miss 2 assignments you can still get a B.
 
 Late assignments are not accepted and there is way to make up for a missed assignments.
 
 There will be options for extra credit but, typically, extra credit projects are much more advanced and challenging than regular assignemnts. Extra credit is not designed to make up for missing work or low grades. It is designed to give you an opportunity to show off you advanced skills.
 
-For class projects you will be evaulated on the commits you make, not on the project as a whole.
+Part of your final project grade will be computed using crowdgrader, a collaborative peer grading tool.
+Another component will be evaulated based on your specific commits.
 
-You can lose points if you ask questions about Windows setup.
+You can lose points if you ask questions about Windows setup or about isses that were
+discussed in class or on the google group.
 
 Points will be converted to grade based on this scale:
 - A >93
