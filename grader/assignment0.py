@@ -9,7 +9,8 @@ class Assignment0(Assignment):
 
     def step1(self):
         "check if index.html exists"
-        self.filename = os.path.join(self.folder, "index.html")
+        self.filename = "index.html"
+        print(self.filename)
         if not os.path.exists(self.filename):
             self.add_comment(self.step1.__doc__, 0)
             raise StopGrading

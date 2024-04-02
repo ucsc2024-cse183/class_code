@@ -160,3 +160,14 @@ Consequences: Any instance of plagiarism will be taken very seriously. Depending
 
 ### Week 10 - June 3
 - Help finalize projects
+
+## Reading Suggestions
+
+Week 1 - Suggested readings
+- https://reintech.io/blog/how-to-create-a-simple-web-server-with-python
+- https://www.cloudflare.com/learning/network-layer/internet-protocol/
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+- https://www.youtube.com/watch?v=UVR9lhUGAyU (video)
+- https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+- https://html.com/
+- https://www3.ntu.edu.sg/home/ehchua/programming/webprogramming/HTML_CSS_Basics.html
