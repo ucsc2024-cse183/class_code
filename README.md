@@ -6,7 +6,7 @@
 - Meeting days: Monday and Wednesday
 - Meeting time: 7:10pm - 8:45pm
 - Instructor office hours: Monday and Wedensday 9-10pm (requires appoinment)
-- TA office hours: TBD
+- TA office hours: (see canvas)
 - First day of class: April 1, 2024
 - Last day of class: June 5, 2024
 
