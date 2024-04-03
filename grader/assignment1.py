@@ -1,6 +1,6 @@
 import os
 
-from grade import Assignment, Soup, StopGrading
+from grade import Assignment, Soup, StopGrading, children
 
 
 class Assignment1(Assignment):
@@ -11,7 +11,7 @@ class Assignment1(Assignment):
 
     def step01(self):
         "it should have a <head/> and a <bod/y>"
-        self.filename = os.path.join(self.folder, "index.html")
+        self.filename = "index.html"
         success = False
         if not os.path.exists(self.filename):
             self.add_comment("cannot find the file", 0)
