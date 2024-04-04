@@ -191,7 +191,18 @@ def grade(rel_path):
         print(colors.FAIL + "Error: running grade from the wrong folder" + colors.END)
         sys.exit(1)
     assignment = getattr(module, assignment_name.title())(rel_path)
-    return assignment.grade()
+    num = 0
+    try:
+        num = assignment.grade()
+        print(
+            "This grade is not official!\n"
+            "For it to be official you commit it and push:\n"
+            "    git add .\n"
+            "    git commit -a -m \"assignment N solution\"\n"
+            "    git push origin main\n")
+    except:
+        print(traceback.format_exc())
+    return num
 
 
 def main():
