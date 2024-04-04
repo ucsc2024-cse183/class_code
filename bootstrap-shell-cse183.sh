@@ -1,6 +1,6 @@
 #! /bin/bash
 cd $(dirname "$0")
-git pull origin main
+git reset --hard origin/main
 echo "Installing/upgrading Nix and required packages (not worries, not affecting your OS)"
 export NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1
 [ -f /etc/nix/nix.conf ] || curl -k -L https://nixos.org/nix/install | sh -s -- --daemon
@@ -69,9 +69,6 @@ let
       pkgs.readline
       pkgs.libffi
       pkgs.openssl
-
-      # need by selenium
-      pkgs.chromedriver
    ];
 
     shellHook = ''
@@ -89,6 +86,7 @@ let
         $VENV_PATH/bin/pip install -U -r requirements.txt
       fi
       $VENV_PATH/bin/pip install -U py4web
+      $VENV_PATH/bin/pip install -U webdriver-manager
       source $VENV_PATH/bin/activate
       export PYTHONPATH=$VENV_PATH/${myPython.sitePackages}/:${pythonWithPkgs}/${pythonWithPkgs.sitePackages}:$PYTHONPATH
       export EDITOR=nano
