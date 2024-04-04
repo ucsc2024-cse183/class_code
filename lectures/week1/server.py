@@ -35,7 +35,7 @@ while True:
     if parts[0] != "GET":
         conn.close()
         continue
-    requested_file = parts[1]        
+    requested_file = parts[1]      
     if not requested_file.startswith("/static/"):
         now = datetime.datetime.now()
         body = f"Hello World now is {now}"
