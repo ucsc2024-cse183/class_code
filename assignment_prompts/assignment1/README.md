@@ -1,4 +1,4 @@
-Due Date: April 10 - 11:59pm
+Due Date: April 14 - 11:59pm
 
 In your class-assigned github repo, NOT in class_code, create a file `assignment1/index.html`. In it, design a web page with the following characteristics:
 - it should have a <head/> and a <body/> (1 point)
