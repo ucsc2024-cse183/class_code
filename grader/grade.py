@@ -82,10 +82,9 @@ def check_student_repo(override):
         ):
             print(
                 colors.FAIL
-                + "Error: You are not in your personal class repo"
+                + "Error: You may not be in your personal class repo"
                 + colors.END
             )
-            sys.exit(1)
     if not override and info and info["branch"] != "main":
         print(colors.FAIL + "Warning: You are not in the main git branch" + colors.END)
         sys.exit(0)
