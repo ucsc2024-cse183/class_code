@@ -133,4 +133,4 @@ class Assignment1(Assignment):
         "the footer should also contain an a link that, on click, will open the user's default email app with To: file equalt to your email address. The text of the link should be youor name."
         success = any(link["href"].startswith("mailto:") for link in self.footer_links)
         self.add_comment(self.step12.__doc__, 1 if success else 0)
-<
+

@@ -1,6 +1,8 @@
 #! /bin/bash
 cd $(dirname "$0")
-git reset --hard origin/main
+if [ $USER != "mdipierro" ]; then
+    echo "git reset --hard origin/main"
+fi
 echo "Installing/upgrading Nix and required packages (not worries, not affecting your OS)"
 export NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1
 [ -f /etc/nix/nix.conf ] || curl -k -L https://nixos.org/nix/install | sh -s -- --daemon

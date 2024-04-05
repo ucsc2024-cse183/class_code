@@ -184,11 +184,13 @@ class Assignment:
 def grade(rel_path):
     """entry point"""
     assignment_name = rel_path
-    assignment_file = os.path.join(os.path.dirname(__file__), assignment_name + ".py")
+    assignment_file = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                                   assignment_name + ".py")
     try:
         module = SourceFileLoader(assignment_name, assignment_file).load_module()
-    except:
-        print(colors.FAIL + "Error: running grade from the wrong folder" + colors.END)
+    except Exception:
+        print(traceback.format_exc())
+        print(colors.FAIL + f"Error: unable to load {assignment_file}" + colors.END)
         sys.exit(1)
     assignment = getattr(module, assignment_name.title())(rel_path)
     num = 0
