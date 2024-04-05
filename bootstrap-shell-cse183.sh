@@ -4,8 +4,9 @@ if [ $USER != "mdipierro" ]; then
     echo "git reset --hard origin/main"
 fi
 echo "Installing/upgrading Nix and required packages (not worries, not affecting your OS)"
+daemon=${1:---daemon}
 export NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1
-[ -f /etc/nix/nix.conf ] || curl -k -L https://nixos.org/nix/install | sh -s -- --daemon
+which nix-shell || curl -k -L https://nixos.org/nix/install | sh -s -- $daemon
 cat <<\EOF > shell.nix
 let
   nixpkgs-src = builtins.fetchTarball {
