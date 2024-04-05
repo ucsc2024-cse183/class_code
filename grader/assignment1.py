@@ -125,7 +125,7 @@ class Assignment1(Assignment):
         "the footer should contain a link to the class code"
         self.footer_links = self.children[3].findAll("a")
         success = any(
-            link["href"] == "class_code_link.html" for link in self.footer_links
+            link["href"] == "https://github.com/ucsc2024-cse183/class_code" for link in self.footer_links
         )
         self.add_comment(self.step11.__doc__, 1 if success else 0)
 
@@ -133,3 +133,4 @@ class Assignment1(Assignment):
         "the footer should also contain an a link that, on click, will open the user's default email app with To: file equalt to your email address. The text of the link should be youor name."
         success = any(link["href"].startswith("mailto:") for link in self.footer_links)
         self.add_comment(self.step12.__doc__, 1 if success else 0)
+<
