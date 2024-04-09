@@ -1,13 +1,13 @@
 import os
 
-from grade import Assignment, Soup, StopGrading, children
+from grade import AssignmentBase, Soup, StopGrading, children
 
 
-class Assignment1(Assignment):
+class Assignment(AssignmentBase):
     """ """
 
     def __init__(self, folder):
-        Assignment.__init__(self, folder, max_grade=3)
+        AssignmentBase.__init__(self, folder, max_grade=12)
 
     def step01(self):
         "it should have a <head/> and a <bod/y>"

@@ -151,7 +151,7 @@ def common_ancestor(a, b):
     return None
 
 
-class Assignment:
+class AssignmentBase:
     def __init__(self, folder, max_grade):
         self.folder = folder
         self._max_grade = max_grade
@@ -162,14 +162,16 @@ class Assignment:
 
     def grade(self):
         steps = [getattr(self, name) for name in dir(self) if name.startswith("step")]
-        for step in steps:
+        for k, step in enumerate(steps):
             try:
                 step()
             except StopGrading:
                 break
+            except AssertionError as error:
+                self.add_comment(f"Step{k+1}: " + str(error), 0)            
             except:
                 print(traceback.format_exc())
-                self.add_comment(step.__doc__ + " (Unable to grade)", 0)
+                self.add_comment((step.__doc__ or f"Step{k+1}:") + " (Unable to grade)", 0)
         grade = 0
         for comment, points in self._comments:
             print("=" * 40)
@@ -192,7 +194,7 @@ def grade(rel_path):
         print(traceback.format_exc())
         print(colors.FAIL + f"Error: unable to load {assignment_file}" + colors.END)
         sys.exit(1)
-    assignment = getattr(module, assignment_name.title())(rel_path)
+    assignment = getattr(module, "Assignment")(os.getcwd())
     num = 0
     try:
         num = assignment.grade()

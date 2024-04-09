@@ -1,11 +1,11 @@
 import os
 
-from grade import Assignment, Soup, StopGrading
+from grade import AssignmentBase, Soup, StopGrading
 
 
-class Assignment0(Assignment):
+class Assignment(AssignmentBase):
     def __init__(self, folder):
-        Assignment.__init__(self, folder, max_grade=3)
+        AssignmentBase.__init__(self, folder, max_grade=3)
 
     def step1(self):
         "check if index.html exists"

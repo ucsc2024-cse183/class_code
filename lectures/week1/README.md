@@ -38,12 +38,30 @@ Most important HTML tags:
 <img>
 <video>
 
-<form><input><textarea><select><button><label>
+<form><input type="text"><textarea><select><button><label>
 
-<div style="...style here ...">content</div>
-<style>...style here... </style>
+- Style (CSS) can go in-line:
+  <div style="color: red">content</div>
+- Can go in a <style/> tag:
+  <style>div.mydiv { color: red; font-size: 2em; }</style>
+- Can go in its own file: (preferred)
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
 
+
+Examples of CSS:
 color: red; color: #FF0000;
 background-color: red;
 padding: 1px; padding: 1em; padding: 5px 10px 5px 10px;
 padding-top: 5px;
+font-size: 3em;
+width: 100%
+font-face: inherit
+
+<body>
+   <div style="width:50%">
+     <div style="width:50%">
+        hello // 25% of body
+...
+
+
+
