@@ -2,9 +2,11 @@
 
 Where to put JS code:
 
+```
 <div onclick="alert('hello world');">Click me</div>
 <script>alert("hello world");</script>
 <script src="myfile.js"></script>
+```
 
 ## Useful links
 
@@ -48,6 +50,7 @@ Where to put JS code:
 </script>
 ```
 
+```
 <div v-text="expr"
      v-for="elem in array"
      v-if="expr"
@@ -56,7 +59,22 @@ Where to put JS code:
      v-bind:class="{'selected':expr}"
      v-bind:style="{'color':expr}">...</div>     
 <input v-model="variable"/>
+```
 
-## Useful links
+# Useful links
 
 Vue js quck start: https://vuejs.org/guide/quick-start.html
+
+## Misc notes
+
+## Ubuntu
+
+sudo apt install chrome
+
+## Centos
+
+sudo dnf install chrome
+
+## Arch Linux
+
+sudo pacman install chrome
