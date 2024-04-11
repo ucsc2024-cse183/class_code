@@ -31,7 +31,8 @@ class Assignment(AssignmentBase):
         print(f"Grading {url}")
         self.browser =  webdriver.Chrome(
             options=browser_options,
-            service=ChromeService(ChromeDriverManager().install()))
+            service=ChromeService(ChromeDriverManager(driver_version='120').install())
+        )
         self.goto(url)
         
     def goto(self, url):
