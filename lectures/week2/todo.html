@@ -1,0 +1,44 @@
+<html lang="en" class="bd-theme-expo">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TODO List</title>
+    <link rel="stylesheet" href="https://bulma.io/vendor/fontawesome-free-5.15.2-web/css/all.min.css">
+  </head>
+  <body>
+    <div id="myapp">
+        <header class="header"></header>
+        <section class="section">
+            <h1 class="title">TODO List</h1>
+            <h2 class="subtitle">Add item</h2>
+            <div class="control">
+                <input class="input" v-model="new_item.title" /><!-- the name of the item -->
+                <input class="input" v-model="new_item.description" /><!-- the name of the item -->
+                <button class="button" v-on:click="add_new_item()">add item</button>
+            </div>
+
+            <h2 class="subtitle">Todo Items</h2>
+            <div v-for="item in items">
+
+                <div class="card">
+                    <div class="card-content">
+                      <div class="media">
+                        <div class="media-content">
+                          <p class="title is-4" v-text="item.title"></p>
+                        </div>
+                      </div>
+                  
+                      <div class="content" v-text="item.description">
+                        
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </section>
+        <footer class="footer"></footer>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="todo.js"></script>
+</body>
+</html>

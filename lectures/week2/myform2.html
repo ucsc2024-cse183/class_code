@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #myoutput { border: 1px solid red;}
+    </style>
+</head>
+<body>
+    <div id="myapp">
+        <h1>MyForm</h1>
+        <input name="mytext" v-model="message"/>
+        <div id="myoutput" v-text="message"></div>
+        <button v-on:click="reset()">clear</button>
+
+        <ul>
+            <li v-for="fruit in fruits" v-text="fruit"></li>
+        </ul>        
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="myform2.js"></script>
+</body>
+</html>

@@ -36,17 +36,16 @@ Where to put JS code:
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script>
   var app = {};
-  app.config = {
-    setup: function() {
+  app.config = {};
+  app.config.setup = function() {
       return {
-        message: "hello world"        
-      }
-    },
-    methods: {
-      click: function() { alert("you clicked"); }
-    }
+          message: Vue.ref(""),
+          fruits: Vue.ref(["apple", "strawberry", "pineapple"])
+      };
   };
-  app.vue = Vue.createApp(app.config).mount('#myapp');
+  app.config.methods = {};
+  app.config.methods.reset = function() { this.message = ""; };
+  app.vue = Vue.createApp(app.config).mount("#myapp");
 </script>
 ```
 
