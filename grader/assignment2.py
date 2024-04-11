@@ -1,5 +1,6 @@
 import os
 import sys
+import subprocess
 
 from grade import AssignmentBase, Soup, StopGrading, children
 
@@ -9,10 +10,20 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-DEBUG = True
-browser_options = webdriver.ChromeOptions()
-if not DEBUG:
-    browser_options.add_argument("--headless")
+ret = subprocess.run("/opt/google/chrome/chrome --version", shell=True, check=False, capture_output=True)
+try:
+    chrome_version = ret.stdout.decode().split()[2].split(".")[0]
+except Exception:
+    print("/opt/google/chrome/chrome not installed")
+    sys.exit(1)
+
+options = webdriver.ChromeOptions()
+options.add_argument('--no-sandbox')
+options.add_argument('--headless')
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--disable-extensions')
+options.add_argument('--disable-gpu')
 
 class StopGrading(Exception):
     pass
@@ -29,11 +40,13 @@ class Assignment(AssignmentBase):
         AssignmentBase.__init__(self, folder, max_grade=12)
         url = 'file://' + os.path.join(folder, 'index.html')
         print(f"Grading {url}")
+        driver = ChromeDriverManager(driver_version=chrome_version)
         self.browser =  webdriver.Chrome(
-            options=browser_options,
-            service=ChromeService(ChromeDriverManager(driver_version='120').install())
+            options=options,
+            service=ChromeService(driver.install())
         )
         self.goto(url)
+        print("success!")
         
     def goto(self, url):
         self.browser.get(url)
