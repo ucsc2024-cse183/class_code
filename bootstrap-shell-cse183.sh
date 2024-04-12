@@ -60,6 +60,7 @@ let
       pkgs.mc
       pkgs.git
       pkgs.nano
+      pkgs.ungoogled-chromium
       vscodeWithExtensions
 
       # image and documentation tools

@@ -1,5 +1,6 @@
 import os
 import subprocess
+import traceback
 import sys
 
 from grade import AssignmentBase, Soup, StopGrading, children
@@ -8,23 +9,18 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.os_manager import ChromeType
 
-chrome_path = os.environ.get("CHROME_PATH")
-if chrome_path:
-    print(f"Trying {chrome_path}")
-    try:
-        ret = subprocess.run(
-            f"{chrome_path} --version", shell=True, check=False, capture_output=True
-        )
-        chrome_version = ret.stdout.decode().split()[2].split(".")[0]
-        driver = ChromeDriverManager(driver_version=chrome_version).install()
-    except Exception:
-        print(traceback.format_exc())
-        sys.exit(1)
-else:
-    driver = ChromeDriverManager().install()
+def run(cmd):
+    print(cmd)
+    return subprocess.run(cmd, check=True, capture_output=True, shell=True).stdout.decode().strip()
+
+chromium_path = run("which chromium")
+version = run(f"{chromium_path} --version").split()[1].split(".")[0]
+driver = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
 
 options = webdriver.ChromeOptions()
+options.binary_location = chromium_path
 options.add_argument("--no-sandbox")
 options.add_argument("--headless")
 options.add_argument("--ignore-certificate-errors")
@@ -49,7 +45,10 @@ class Assignment(AssignmentBase):
         AssignmentBase.__init__(self, folder, max_grade=12)
         url = "file://" + os.path.join(folder, "index.html")
         print(f"Grading {url}")
-        self.browser = webdriver.Chrome(options=options, service=ChromeService(driver))
+        self.browser = webdriver.Chrome(
+            options=options,
+            service=ChromeService(driver)
+        )
         self.goto(url)
         print("success!")
 
