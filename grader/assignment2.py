@@ -15,12 +15,15 @@ def run(cmd):
     print(cmd)
     return subprocess.run(cmd, check=True, capture_output=True, shell=True).stdout.decode().strip()
 
-chromium_path = run("which chromium")
-version = run(f"{chromium_path} --version").split()[1].split(".")[0]
-driver = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-
 options = webdriver.ChromeOptions()
-options.binary_location = chromium_path
+try:
+    chromium_path = run("which chromium")
+    version = run(f"{chromium_path} --version").split()[1].split(".")[0]
+    driver = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+    options.binary_location = chromium_path
+except Exception:
+    driver = ChromeDriverManager().install()
+
 options.add_argument("--no-sandbox")
 options.add_argument("--headless")
 options.add_argument("--ignore-certificate-errors")
