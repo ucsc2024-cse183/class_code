@@ -30,7 +30,9 @@ options.add_argument("--ignore-certificate-errors")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--disable-extensions")
 options.add_argument("--disable-gpu")
-
+#options.add_argument('--disable-setuid-sandbox')
+#options.add_argument("--start-maximized")
+#options.add_argument("--window-size=1920,1080")
 
 class StopGrading(Exception):
     pass
@@ -136,15 +138,11 @@ class Assignment(AssignmentBase):
 
     def step08(self):
         ro_fields = [4, 5, 6, 9, 10, 13, 14]
-        rows = self.browser.find_elements(By.CSS_SELECTOR, "table tr")
-        for i, r in enumerate(rows):
-            cols = r.find_elements(By.CSS_SELECTOR, "td")
-            assert len(cols) > 0, "Row with less than 1 columns"
-            col = cols[-1]
-            input_field = col.find_element(By.CSS_SELECTOR, "input")
-            (input_field.get_attribute("readonly") is not None) == (
-                i + 1 in ro_fields
-            ), f"Input field for row {i + 1} read-only is wrong"
+        for i in range(1,15):
+            input_field = self.browser.find_element(By.NAME, f"value-{i}")
+            is_readonly = input_field.get_attribute("readonly") is not None
+            assert (is_readonly == (i in ro_fields)), \
+                f"Input field for row i read-only is wrong"
         self.add_comment("The required input fields are read-only.", 1)
 
     def step09(self):
