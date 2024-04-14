@@ -141,7 +141,7 @@ class Assignment(AssignmentBase):
             input_field = self.browser.find_element(By.NAME, f"value-{i}")
             is_readonly = input_field.get_attribute("readonly") is not None
             assert (is_readonly == (i in ro_fields)), \
-                f"Input field for row i read-only is wrong"
+                f"Input field for row {i} read-only is wrong"
         self.add_comment("The required input fields are read-only.", 1)
 
     def step09(self):
