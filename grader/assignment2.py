@@ -2,7 +2,6 @@ import os
 import subprocess
 import traceback
 import sys
-import time
 
 from grade import AssignmentBase, Soup, StopGrading, children
 from selenium import webdriver
@@ -60,11 +59,11 @@ class Assignment(AssignmentBase):
 
     def goto(self, url):
         self.browser.get(url)
-        time.sleep(4)
+        self.browser.implicitly_wait(4)
 
     def refresh(self):
         self.browser.refresh()
-        time.sleep(4)
+        self.browser.implicitly_wait(4)
 
     def append_comment(self, points, comment):
         self._comments.append((points, comment))
@@ -158,7 +157,7 @@ class Assignment(AssignmentBase):
                 inp1.send_keys(v1)
                 inp2.send_keys(v2)
                 inp3.send_keys(v3)
-                time.sleep(5)
+                self.browser.implicitly_wait(5)
                 value_1 = inp1.get_attribute("value")
                 value_2 = inp2.get_attribute("value")
                 value_3 = inp3.get_attribute("value")
@@ -179,7 +178,7 @@ class Assignment(AssignmentBase):
             value_5 == 13850
         ), f"Field 5 value is {value_5} instead of 13850 when checkbox is not checked"
         checkbox.click()
-        time.sleep(4)
+        self.browser.implicitly_wait(4)
         value_5 = safe_float(inp.get_attribute("value"))
         assert (
             value_5 == 27700
