@@ -1,44 +1,66 @@
-<html lang="en" class="bd-theme-expo">
+<!DOCTYPE html>
+<html data-theme="dark"><!-- use Bulma dark theme -->
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TODO List</title>
-    <link rel="stylesheet" href="https://bulma.io/vendor/fontawesome-free-5.15.2-web/css/all.min.css">
+    <title>TODO APP</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <style>      
+      article ~ article { margin-bottom: 10px } /* give same margin between items */
+    </style>
   </head>
-  <body>
-    <div id="myapp">
-        <header class="header"></header>
-        <section class="section">
-            <h1 class="title">TODO List</h1>
-            <h2 class="subtitle">Add item</h2>
+  <!-- body will be controlled by Vue -->
+  <body id="myapp">
+    <section class="section">
+      <div class="container">
+        <h1 class="title">        
+          TODO APP
+        </h1>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <!-- Contains the input form -->
+        <h2 class="subtitle">Add item</h2>
+        <div style="max-width:400px">
+          <div class="field">
+            <label>Title</label>
             <div class="control">
-                <input class="input" v-model="new_item.title" /><!-- the name of the item -->
-                <input class="input" v-model="new_item.description" /><!-- the name of the item -->
-                <button class="button" v-on:click="add_new_item()">add item</button>
+                <input class="input" v-model="new_item.title" />
             </div>
-
-            <h2 class="subtitle">Todo Items</h2>
-            <div v-for="item in items">
-
-                <div class="card">
-                    <div class="card-content">
-                      <div class="media">
-                        <div class="media-content">
-                          <p class="title is-4" v-text="item.title"></p>
-                        </div>
-                      </div>
-                  
-                      <div class="content" v-text="item.description">
-                        
-                      </div>
-                    </div>
-                  </div>
+          </div>
+          <div class="field">
+            <label>Description</label>
+            <div class="control">
+                <textarea class="input" v-model="new_item.description"></textarea>
             </div>
-        </section>
-        <footer class="footer"></footer>
-    </div>
+          </div>
+          <div class="field">
+            <div class="control">
+                  <button class="button" v-on:click="add_new_item()">add item</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <!-- Contains the list of items -->
+        <h2 class="subtitle">Todo Items</h2>      
+        <article class="message"
+                v-for="item in items"
+                v-bind:class="{'is-success':item.state==0, 'is-warning':item.state==1, 'is-danger':item.state==2}">
+          <div class="message-header" v-on:click="rotate(item)">
+            <p v-text="item.title"></p>
+            <button class="delete" aria-label="delete" v-on:click="remove(item)"></button>
+          </div>
+          <div class="message-body" v-text="item.description"></div>
+        </article>
+      </div>
+    </section>
+    <!-- Load vue -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Load custom code -->
     <script src="todo.js"></script>
-</body>
+  </body>
 </html>
