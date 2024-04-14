@@ -136,7 +136,7 @@ class Assignment(AssignmentBase):
         self.add_comment("Third column is correct", 1)
 
     def step08(self):
-        ro_fields = [4, 5, 6, 9, 10, 13, 14]
+        ro_fields = [4, 5, 6, 9, 10, 12, 13, 14]
         for i in range(1,15):
             input_field = self.browser.find_element(By.NAME, f"value-{i}")
             is_readonly = input_field.get_attribute("readonly") is not None
