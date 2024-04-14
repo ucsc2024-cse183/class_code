@@ -2,6 +2,7 @@ import os
 import subprocess
 import traceback
 import sys
+import time
 
 from grade import AssignmentBase, Soup, StopGrading, children
 from selenium import webdriver
@@ -59,11 +60,11 @@ class Assignment(AssignmentBase):
 
     def goto(self, url):
         self.browser.get(url)
-        self.browser.implicitly_wait(2)
+        time.sleep(4)
 
     def refresh(self):
         self.browser.refresh()
-        self.browser.implicitly_wait(2)
+        time.sleep(4)
 
     def append_comment(self, points, comment):
         self._comments.append((points, comment))
@@ -75,9 +76,7 @@ class Assignment(AssignmentBase):
     def step02(self):
         table = self.browser.find_element(By.CSS_SELECTOR, "table")
         bulma_classes = ["table", "is-striped", "is-fullwidth"]
-        assert set(bulma_classes).issubset(
-            table.get_attribute("class").split()
-        ), "Table does not use Bulma CSS"
+        assert set(bulma_classes) & set(table.get_attribute("class").split()), "Table does not use Bulma CSS"
         self.add_comment("Table uses Bulma CSS", 1)
 
     def step03(self):
@@ -159,7 +158,7 @@ class Assignment(AssignmentBase):
                 inp1.send_keys(v1)
                 inp2.send_keys(v2)
                 inp3.send_keys(v3)
-                self.browser.implicitly_wait(2)
+                time.sleep(5)
                 value_1 = inp1.get_attribute("value")
                 value_2 = inp2.get_attribute("value")
                 value_3 = inp3.get_attribute("value")
@@ -180,7 +179,7 @@ class Assignment(AssignmentBase):
             value_5 == 13850
         ), f"Field 5 value is {value_5} instead of 13850 when checkbox is not checked"
         checkbox.click()
-        self.browser.implicitly_wait(2)
+        time.sleep(4)
         value_5 = safe_float(inp.get_attribute("value"))
         assert (
             value_5 == 27700

@@ -14,6 +14,8 @@ Where to put JS code:
 
 - JS comprehensive guide: https://javascript.info/
 
+- Brief History of CSS https://eev.ee/blog/2020/02/01/old-css-new-css/
+
 ## event handling example
 
 ```

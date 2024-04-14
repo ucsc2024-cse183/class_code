@@ -5,6 +5,7 @@ import shutil
 import subprocess
 import sys
 import traceback
+import selenium
 from importlib.machinery import SourceFileLoader
 
 import mechanize
@@ -166,6 +167,9 @@ class AssignmentBase:
             try:
                 step()
             except StopGrading:
+                break
+            except selenium.common.exceptions.NoSuchElementException as err:
+                print(err)
                 break
             except AssertionError as error:
                 self.add_comment(f"Step{k+1}: " + str(error), 0)            
