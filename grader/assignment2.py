@@ -2,6 +2,7 @@ import os
 import subprocess
 import traceback
 import sys
+import time
 
 from grade import AssignmentBase, Soup, StopGrading, children
 from selenium import webdriver
@@ -185,6 +186,7 @@ class Assignment(AssignmentBase):
                 self.browser.implicitly_wait(4)
                 inp3.send_keys(v3)
                 self.browser.implicitly_wait(10)
+                time.sleep(10)
                 value_1 = inp1.get_attribute("value")
                 value_2 = inp2.get_attribute("value")
                 value_3 = inp3.get_attribute("value")

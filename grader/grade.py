@@ -164,6 +164,7 @@ class AssignmentBase:
     def grade(self):
         steps = [getattr(self, name) for name in dir(self) if name.startswith("step")]
         for k, step in enumerate(steps):
+            print("step", k, "...")
             try:
                 step()
             except StopGrading:
