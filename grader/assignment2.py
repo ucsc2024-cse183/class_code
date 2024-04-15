@@ -122,16 +122,18 @@ class Assignment(AssignmentBase):
         self.add_comment("Second column is correct", 1)
 
     def step07(self):
-        rows = self.browser.find_elements(By.CSS_SELECTOR, "table tr")
-        for i, r in enumerate(rows):
-            cols = r.find_elements(By.CSS_SELECTOR, "td")
+        
+        for i in range(1, 15):
+            row = self.browser.find_element(By.CSS_SELECTOR, f".row-{i}")
+            assert row, f"count not find row with class row-{i}"
+            cols = row.find_elements(By.CSS_SELECTOR, "td")
             assert len(cols) > 0, "Row with less than 1 columns"
             col = cols[-1]
             input_field = col.find_element(By.CSS_SELECTOR, "input")
-            assert input_field, f"Row {i + 1} does not have an input field"
-            assert (
-                input_field.get_attribute("name") == f"value-{i + 1}"
-            ), f"Input field for row {i + 1} has wrong name"
+            assert input_field, f"Row {i} does not have an input field"
+            name = input_field.get_attribute("name")
+            assert (name == f"value-{i}"
+            ), f"Input field for row {i} has wrong name {name}"
         self.add_comment("Third column is correct", 1)
 
     def step08(self):
