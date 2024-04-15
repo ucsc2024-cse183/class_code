@@ -8,32 +8,48 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.os_manager import ChromeType
+try:
+    from webdriver_manager.chrome import ChromeDriverManager
+    from webdriver_manager.core.os_manager import ChromeType
+except:
+    ChromeDriverManager = None
 
 def run(cmd):
     print(cmd)
     return subprocess.run(cmd, check=True, capture_output=True, shell=True).stdout.decode().strip()
 
 options = webdriver.ChromeOptions()
-try:
-    chromium_path = run("which chromium")
-    version = run(f"{chromium_path} --version").split()[1].split(".")[0]
-    driver = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-    options.binary_location = chromium_path
-except Exception:
-    driver = ChromeDriverManager().install()
+if ChromeDriverManager:
+    try:
+        chromium_path = run("which chromium")
+        version = run(f"{chromium_path} --version").split()[1].split(".")[0]
+        driver = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+        options.binary_location = chromium_path
+    except Exception:
+        driver = ChromeDriverManager().install()
+    service=ChromeService(driver)
+else:
+    service = Service('/usr/lib/chromium/chromedriver')
+    options.binary_location = '/usr/lib/chromium/chromium'
 
+options.add_argument("--window-size=1024,768")
+options.add_argument("--disable-extensions")
+options.add_argument("--proxy-bypass-list=*")
+options.add_argument('--ignore-certificate-errors')
 options.add_argument("--no-sandbox")
 options.add_argument("--headless")
-options.add_argument("--ignore-certificate-errors")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--disable-extensions")
+options.add_argument("--enable-automation")
+options.add_argument("--disable-browser-side-navigation")
+options.add_argument("--disable-web-security")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-infobars")
 options.add_argument("--disable-gpu")
-#options.add_argument('--disable-setuid-sandbox')
-#options.add_argument("--start-maximized")
-#options.add_argument("--window-size=1920,1080")
+options.add_argument("--disable-setuid-sandbox")
+options.add_argument("--disable-software-rasterizer")
 
+    
 class StopGrading(Exception):
     pass
 
@@ -52,7 +68,7 @@ class Assignment(AssignmentBase):
         print(f"Grading {url}")
         self.browser = webdriver.Chrome(
             options=options,
-            service=ChromeService(driver)
+            service=service
         )
         self.goto(url)
         print("success!")
