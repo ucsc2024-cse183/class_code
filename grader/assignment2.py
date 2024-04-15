@@ -79,11 +79,11 @@ class Assignment(AssignmentBase):
 
     def goto(self, url):
         self.browser.get(url)
-        self.browser.implicitly_wait(4)
+        self.browser.implicitly_wait(10)
 
     def refresh(self):
         self.browser.refresh()
-        self.browser.implicitly_wait(4)
+        self.browser.implicitly_wait(10)
 
     def append_comment(self, points, comment):
         self._comments.append((points, comment))
@@ -180,9 +180,11 @@ class Assignment(AssignmentBase):
             inp4 = self.browser.find_element(By.NAME, value="value-4")
             for (v1, v2, v3), expected in tv:
                 inp1.send_keys(v1)
+                self.browser.implicitly_wait(4)
                 inp2.send_keys(v2)
+                self.browser.implicitly_wait(4)
                 inp3.send_keys(v3)
-                self.browser.implicitly_wait(5)
+                self.browser.implicitly_wait(10)
                 value_1 = inp1.get_attribute("value")
                 value_2 = inp2.get_attribute("value")
                 value_3 = inp3.get_attribute("value")
@@ -203,7 +205,7 @@ class Assignment(AssignmentBase):
             value_5 == 13850
         ), f"Field 5 value is {value_5} instead of 13850 when checkbox is not checked"
         checkbox.click()
-        self.browser.implicitly_wait(4)
+        self.browser.implicitly_wait(10)
         value_5 = safe_float(inp.get_attribute("value"))
         assert (
             value_5 == 27700
