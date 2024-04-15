@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import argparse
 import os
 import shutil
 import subprocess
@@ -213,13 +214,16 @@ def grade(rel_path):
 
 
 def main():
-    override = "--override" in sys.argv
-    if override:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--override',
+                        help='specify a folder with the assignment')
+    args = parser.parse_args()
+    if args.override:
+        os.chdir(args.override)
         rel_path = os.getcwd().split("/")[-1].lower()
     else:
         rel_path = check_student_repo()
     grade(rel_path)
-
 
 if __name__ == "__main__":
     main()
