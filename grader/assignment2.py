@@ -42,7 +42,6 @@ else:
 
 options.add_argument("--window-size=1024,768")
 options.add_argument("--disable-extensions")
-options.add_argument("--proxy-bypass-list=*")
 options.add_argument("--ignore-certificate-errors")
 options.add_argument("--no-sandbox")
 options.add_argument("--headless")
@@ -181,15 +180,16 @@ class Assignment(AssignmentBase):
             inp4 = self.browser.find_element(By.NAME, value="value-4")
             for (v1, v2, v3), expected in tv:
                 inp1.send_keys(v1)
-                self.browser.implicitly_wait(4)
+                time.sleep(1)
                 inp2.send_keys(v2)
-                self.browser.implicitly_wait(4)
+                time.sleep(1)
                 inp3.send_keys(v3)
-                self.browser.implicitly_wait(10)
-                time.sleep(10)
+                time.sleep(1)
+                self.browser.implicitly_wait(4)
                 value_1 = inp1.get_attribute("value")
                 value_2 = inp2.get_attribute("value")
                 value_3 = inp3.get_attribute("value")
+                time.sleep(1)
                 value_4 = inp4.get_attribute("value")
                 assert (
                     safe_float(value_4) == expected
