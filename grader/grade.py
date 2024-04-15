@@ -63,30 +63,29 @@ def get_repo_info():
     return {"org": org, "name": name, "url": url, "branch": branch}
 
 
-def check_student_repo(override):
+def check_student_repo():
     """
     check this command is being executed in a valid student repo and prints a report.
     returns the relative path
     """
     root, path = split_repo_path()
     info = path and get_repo_info()
-    if not override:
-        if info and info["name"] == "class_code":
-            print(
-                colors.FAIL
-                + "Error: You are class_code repo, not your personal class repo"
-                + colors.END
-            )
-            sys.exit(1)
-        if not (
+    if info and info["name"] == "class_code":
+        print(
+            colors.FAIL
+            + "Error: You are class_code repo, not your personal class repo"
+            + colors.END
+        )
+        sys.exit(1)
+    if not (
             info and info["name"].endswith("-code") and info["org"] == "ucsc2024-cse183"
-        ):
-            print(
-                colors.FAIL
-                + "Error: You may not be in your personal class repo"
-                + colors.END
-            )
-    if not override and info and info["branch"] != "main":
+    ):
+        print(
+            colors.FAIL
+            + "Error: You may not be in your personal class repo"
+            + colors.END
+        )
+    if info and info["branch"] != "main":
         print(colors.FAIL + "Warning: You are not in the main git branch" + colors.END)
         sys.exit(0)
     if root and not os.path.exists(os.path.join(root, ".gitignore")):
@@ -215,7 +214,10 @@ def grade(rel_path):
 
 def main():
     override = "--override" in sys.argv
-    rel_path = check_student_repo(override)
+    if override:
+        rel_path = os.getcwd().split("/")[-1].lower()
+    else:
+        rel_path = check_student_repo()
     grade(rel_path)
 
 
