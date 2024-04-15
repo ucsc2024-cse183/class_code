@@ -5,18 +5,25 @@ import sys
 
 from grade import AssignmentBase, Soup, StopGrading, children
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+
 try:
     from webdriver_manager.chrome import ChromeDriverManager
     from webdriver_manager.core.os_manager import ChromeType
 except:
     ChromeDriverManager = None
 
+
 def run(cmd):
     print(cmd)
-    return subprocess.run(cmd, check=True, capture_output=True, shell=True).stdout.decode().strip()
+    return (
+        subprocess.run(cmd, check=True, capture_output=True, shell=True)
+        .stdout.decode()
+        .strip()
+    )
+
 
 options = webdriver.ChromeOptions()
 if ChromeDriverManager:
@@ -27,15 +34,15 @@ if ChromeDriverManager:
         options.binary_location = chromium_path
     except Exception:
         driver = ChromeDriverManager().install()
-    service=ChromeService(driver)
+    service = Service(driver)
 else:
-    service = Service('/usr/lib/chromium/chromedriver')
-    options.binary_location = '/usr/lib/chromium/chromium'
+    service = Service("/usr/lib/chromium/chromedriver")
+    options.binary_location = "/usr/lib/chromium/chromium"
 
 options.add_argument("--window-size=1024,768")
 options.add_argument("--disable-extensions")
 options.add_argument("--proxy-bypass-list=*")
-options.add_argument('--ignore-certificate-errors')
+options.add_argument("--ignore-certificate-errors")
 options.add_argument("--no-sandbox")
 options.add_argument("--headless")
 options.add_argument("--disable-dev-shm-usage")
@@ -49,7 +56,7 @@ options.add_argument("--disable-gpu")
 options.add_argument("--disable-setuid-sandbox")
 options.add_argument("--disable-software-rasterizer")
 
-    
+
 class StopGrading(Exception):
     pass
 
@@ -66,10 +73,7 @@ class Assignment(AssignmentBase):
         AssignmentBase.__init__(self, folder, max_grade=12)
         url = "file://" + os.path.join(folder, "index.html")
         print(f"Grading {url}")
-        self.browser = webdriver.Chrome(
-            options=options,
-            service=service
-        )
+        self.browser = webdriver.Chrome(options=options, service=service)
         self.goto(url)
         print("success!")
 
@@ -91,7 +95,9 @@ class Assignment(AssignmentBase):
     def step02(self):
         table = self.browser.find_element(By.CSS_SELECTOR, "table")
         bulma_classes = ["table", "is-striped", "is-fullwidth"]
-        assert set(bulma_classes) & set(table.get_attribute("class").split()), "Table does not use Bulma CSS"
+        assert set(bulma_classes) & set(
+            table.get_attribute("class").split()
+        ), "Table does not use Bulma CSS"
         self.add_comment("Table uses Bulma CSS", 1)
 
     def step03(self):
@@ -138,7 +144,6 @@ class Assignment(AssignmentBase):
         self.add_comment("Second column is correct", 1)
 
     def step07(self):
-        
         for i in range(1, 15):
             row = self.browser.find_element(By.CSS_SELECTOR, f".row-{i}")
             assert row, f"count not find row with class row-{i}"
@@ -148,17 +153,19 @@ class Assignment(AssignmentBase):
             input_field = col.find_element(By.CSS_SELECTOR, "input")
             assert input_field, f"Row {i} does not have an input field"
             name = input_field.get_attribute("name")
-            assert (name == f"value-{i}"
+            assert (
+                name == f"value-{i}"
             ), f"Input field for row {i} has wrong name {name}"
         self.add_comment("Third column is correct", 1)
 
     def step08(self):
         ro_fields = [4, 5, 6, 9, 10, 12, 13, 14]
-        for i in range(1,15):
+        for i in range(1, 15):
             input_field = self.browser.find_element(By.NAME, f"value-{i}")
             is_readonly = input_field.get_attribute("readonly") is not None
-            assert (is_readonly == (i in ro_fields)), \
-                f"Input field for row {i} read-only is wrong"
+            assert is_readonly == (
+                i in ro_fields
+            ), f"Input field for row {i} read-only is wrong"
         self.add_comment("The required input fields are read-only.", 1)
 
     def step09(self):
