@@ -10,8 +10,9 @@ app.make_item = function() {
     return {
         title: "",
         description: "",
-        state: 0};
+        state: 0
     };
+};
 // The vue input config object    
 app.config = {};
 // The vue input setup() function returns the data to be exposed

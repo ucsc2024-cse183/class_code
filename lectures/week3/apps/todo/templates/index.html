@@ -1,0 +1,18 @@
+[[extend 'layout.html']]
+
+<div class="section">
+  <div class="vars">
+      [[=message]]
+  </div>
+</div>
+
+<div class="section">
+  [[=form]]
+</div>
+
+<h2>Items</h2>
+<div class="section">
+  [[for item in items:]]
+  <div>[[=item.description]]</div>
+  [[pass]]
+</div>
