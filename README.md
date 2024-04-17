@@ -51,9 +51,9 @@ This class also requires familiarity with basic git commands (close, commit, pus
 
 - April 14 - Assignment 1 due
 - April 21 - Assignment 2 due
-- May 5 - Assignment 3 due
-- May 12 - Assignment 4 due
-- May 26 - Assignment 5 due
+- April 28 - Assignment 3 due
+- May 5 - Assignment 4 due
+- May 19 - Assignment 5 due
 - June 9 - Final project due
 
 ### Assignment submissions
