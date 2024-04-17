@@ -169,31 +169,30 @@ class Assignment(AssignmentBase):
         self.add_comment("The required input fields are read-only.", 1)
 
     def step09(self):
-        test_values1 = ((("1", "2", "3"), 6), (("0", "3", "4"), 67))
-        test_values2 = ((("10", "40", "80"), 130), (("0", "0", "00"), 8500))
-        test_values = (test_values1, test_values2)
-        for tv in test_values:
+        test_values = [[("1", "2", "3"), 6],
+                       [("10", "40", "80"), 130],
+                       [("100000","3000","20000"), 123000]]
+        for (v1, v2, v3), expected in test_values:
             self.refresh()  # Otherwise, autocomplete breaks the test.
             inp1 = self.browser.find_element(By.NAME, value="value-1")
             inp2 = self.browser.find_element(By.NAME, value="value-2")
             inp3 = self.browser.find_element(By.NAME, value="value-3")
             inp4 = self.browser.find_element(By.NAME, value="value-4")
-            for (v1, v2, v3), expected in tv:
-                inp1.send_keys(v1)
-                time.sleep(1)
-                inp2.send_keys(v2)
-                time.sleep(1)
-                inp3.send_keys(v3)
-                time.sleep(1)
-                self.browser.implicitly_wait(4)
-                value_1 = inp1.get_attribute("value")
-                value_2 = inp2.get_attribute("value")
-                value_3 = inp3.get_attribute("value")
-                time.sleep(1)
-                value_4 = inp4.get_attribute("value")
-                assert (
-                    safe_float(value_4) == expected
-                ), f"Row 4 computation for inputs {value_1}, {value_2}, {value_3}, returned {value_4} instead of {expected}"
+            inp1.send_keys(v1)
+            time.sleep(1)
+            inp2.send_keys(v2)
+            time.sleep(1)
+            inp3.send_keys(v3)
+            time.sleep(1)
+            self.browser.implicitly_wait(4)
+            value_1 = inp1.get_attribute("value")
+            value_2 = inp2.get_attribute("value")
+            value_3 = inp3.get_attribute("value")
+            time.sleep(1)
+            value_4 = inp4.get_attribute("value")
+            assert (
+                safe_float(value_4) == expected
+            ), f"Row 4 computation for inputs {value_1}, {value_2}, {value_3}, returned {value_4} instead of {expected}"
         self.add_comment("Row 4 computation correct for all test values", 1)
 
     def step10(self):
