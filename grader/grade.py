@@ -203,12 +203,6 @@ def grade(rel_path):
     num = 0
     try:
         num = assignment.grade()
-        print(
-            "This grade is not official!\n"
-            "For it to be official you commit it and push:\n"
-            "    git add .\n"
-            "    git commit -a -m \"assignment N solution\"\n"
-            "    git push origin main\n")
     except:
         print(traceback.format_exc())
     return num

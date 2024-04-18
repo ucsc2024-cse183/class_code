@@ -1,0 +1,14 @@
+[[extend 'layout.html']]
+
+<div class="section">
+  [[for entry in data:]]
+  <div>
+    <h2>[[=entry.title]]</h2>
+    <p>[[=entry.description]]</p>
+    <div>
+      Posted on [[=entry.post_date]] by [[=entry.author.first_name]]
+      <a href="[[=URL('entry')]]">comments</a>
+    </div>
+  </div>
+  [[pass]]
+</div>
