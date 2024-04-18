@@ -219,6 +219,7 @@ def main():
     else:
         rel_path = check_student_repo()
     grade(rel_path)
+    sys.exit(0)
 
 if __name__ == "__main__":
     main()
