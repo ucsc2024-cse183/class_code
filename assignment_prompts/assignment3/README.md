@@ -16,7 +16,7 @@ When the computer clicks on cell 2,0 then `board[2][0] = 'O'.
 - computers will play immediately after the user. (1 point)
 - it should not be possible to play the same cell twice or play a cell already plyed by the other party (1 point)
 - the computer should never lose. (2 point)
-- there should be a button of class "reset" that when clicked, resets the game. (1 point)
+- there should be a button of class "reset" that when clicked, resets the game. (2 point)
 
 
 Within these requirements you can be creative.
