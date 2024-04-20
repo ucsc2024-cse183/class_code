@@ -6,11 +6,70 @@ import shutil
 import subprocess
 import sys
 import traceback
-import selenium
 from importlib.machinery import SourceFileLoader
 
 import mechanize
+import selenium
 from bs4 import BeautifulSoup as Soup
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+
+try:
+    from webdriver_manager.chrome import ChromeDriverManager
+    from webdriver_manager.core.os_manager import ChromeType
+except:
+    ChromeDriverManager = None
+
+__version__ = "20240420.1"
+
+
+def run(cmd):
+    print("Running:", cmd)
+    return (
+        subprocess.run(cmd, check=True, capture_output=True, shell=True)
+        .stdout.decode()
+        .strip()
+    )
+
+
+class StopGrading(Exception):
+    pass
+
+
+def make_chrome_driver(headless=True):
+    options = webdriver.ChromeOptions()
+    if ChromeDriverManager:
+        try:
+            chromium_path = run("which chromium")
+            version = run(f"{chromium_path} --version").split()[1].split(".")[0]
+            driver = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+            options.binary_location = chromium_path
+        except Exception:
+            driver = ChromeDriverManager().install()
+        service = Service(driver)
+    else:
+        service = Service("/usr/lib/chromium/chromedriver")
+        options.binary_location = "/usr/lib/chromium/chromium"
+
+    options.add_argument("--window-size=1024,768")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--ignore-certificate-errors")
+    if headless:
+        options.add_argument("--no-sandbox")
+    options.add_argument("--headless")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--enable-automation")
+    options.add_argument("--disable-browser-side-navigation")
+    options.add_argument("--disable-web-security")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-infobars")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--disable-setuid-sandbox")
+    options.add_argument("--disable-software-rasterizer")
+    return webdriver.Chrome(options=options, service=service)
 
 
 class colors:
@@ -26,12 +85,9 @@ class colors:
 def get_git_root():
     """return the root of the repo or None if not in a repo"""
     try:
-        ret = subprocess.run(
-            "git rev-parse --show-toplevel", shell=True, capture_output=True, check=True
-        )
+        return run("git rev-parse --show-toplevel")
     except:
         return None
-    return ret.stdout.decode("UTF8").strip()
 
 
 def split_repo_path(path=None):
@@ -44,23 +100,14 @@ def split_repo_path(path=None):
 
 def get_repo_info():
     """returns the origin url, name of the org, and name of the repo in a dict"""
-    ret = subprocess.run(
-        "git config --get remote.origin.url",
-        shell=True,
-        capture_output=True,
-        check=True,
-    )
-    url = ret.stdout.decode("UTF8").strip()
+    url = run("git config --get remote.origin.url")
     if url.startswith("git@"):
         org, name = url.split(":")[1][:-4].split("/")[-2:]
     else:
         org, name = url.split("/")[-2:]
     if name.endswith(".git"):
         name = name[:-4]
-    ret = subprocess.run(
-        "git rev-parse --abbrev-ref HEAD", shell=True, capture_output=True, check=True
-    )
-    branch = ret.stdout.decode().strip()
+    branch = run("git rev-parse --abbrev-ref HEAD")
     return {"org": org, "name": name, "url": url, "branch": branch}
 
 
@@ -79,7 +126,7 @@ def check_student_repo():
         )
         sys.exit(1)
     if not (
-            info and info["name"].endswith("-code") and info["org"] == "ucsc2024-cse183"
+        info and info["name"].endswith("-code") and info["org"] == "ucsc2024-cse183"
     ):
         print(
             colors.FAIL
@@ -94,8 +141,7 @@ def check_student_repo():
             colors.WARN + "Warning: You have not created a .gitignore file" + colors.END
         )
     cmd = f"git status -s -- {path}"
-    ret = subprocess.run(cmd, shell=True, capture_output=True, check=True)
-    output = ret.stdout.decode().strip()
+    output = run(cmd)
     if output:
         print(colors.WARN + "Warning: You have uncommitted changes!" + colors.END)
         print(f"> {cmd}\n{output}\n")
@@ -106,8 +152,7 @@ def check_student_repo():
             + colors.END
         )
     cmd = f"git diff --name-status origin/main -- {path}"
-    ret = subprocess.run(cmd, shell=True, capture_output=True, check=True)
-    output = ret.stdout.decode().strip()
+    output = run(cmd)
     if output:
         print(colors.WARN + "Warning: You have local changes not pushed!" + colors.END)
         print(f"> {cmd}\n{output}\n")
@@ -173,10 +218,12 @@ class AssignmentBase:
                 print(err)
                 break
             except AssertionError as error:
-                self.add_comment(f"Step{k+1}: " + str(error), 0)            
+                self.add_comment(f"Step{k+1}: " + str(error), 0)
             except:
                 print(traceback.format_exc())
-                self.add_comment((step.__doc__ or f"Step{k+1}:") + " (Unable to grade)", 0)
+                self.add_comment(
+                    (step.__doc__ or f"Step{k+1}:") + " (Unable to grade)", 0
+                )
         grade = 0
         for comment, points in self._comments:
             print("=" * 40)
@@ -191,8 +238,10 @@ class AssignmentBase:
 def grade(rel_path):
     """entry point"""
     assignment_name = rel_path
-    assignment_file = os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                                   assignment_name + ".py")
+    print(f"Begin grading {assignment_name}")
+    assignment_file = os.path.join(
+        os.path.abspath(os.path.dirname(__file__)), assignment_name + ".py"
+    )
     try:
         module = SourceFileLoader(assignment_name, assignment_file).load_module()
     except Exception:
@@ -205,13 +254,13 @@ def grade(rel_path):
         num = assignment.grade()
     except:
         print(traceback.format_exc())
+    print(f"End grading {assignment_name}")
     return num
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--override',
-                        help='specify a folder with the assignment')
+    parser.add_argument("--override", help="specify a folder with the assignment")
     args = parser.parse_args()
     if args.override:
         os.chdir(args.override)
@@ -221,5 +270,7 @@ def main():
     grade(rel_path)
     sys.exit(0)
 
+
 if __name__ == "__main__":
+    print(f"Grader version {__version__}")
     main()

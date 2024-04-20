@@ -1,64 +1,16 @@
 import os
-import subprocess
-import traceback
 import sys
 import time
 
-from grade import AssignmentBase, Soup, StopGrading, children
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-
-try:
-    from webdriver_manager.chrome import ChromeDriverManager
-    from webdriver_manager.core.os_manager import ChromeType
-except:
-    ChromeDriverManager = None
-
-
-def run(cmd):
-    print(cmd)
-    return (
-        subprocess.run(cmd, check=True, capture_output=True, shell=True)
-        .stdout.decode()
-        .strip()
-    )
-
-
-options = webdriver.ChromeOptions()
-if ChromeDriverManager:
-    try:
-        chromium_path = run("which chromium")
-        version = run(f"{chromium_path} --version").split()[1].split(".")[0]
-        driver = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-        options.binary_location = chromium_path
-    except Exception:
-        driver = ChromeDriverManager().install()
-    service = Service(driver)
-else:
-    service = Service("/usr/lib/chromium/chromedriver")
-    options.binary_location = "/usr/lib/chromium/chromium"
-
-options.add_argument("--window-size=1024,768")
-options.add_argument("--disable-extensions")
-options.add_argument("--ignore-certificate-errors")
-options.add_argument("--no-sandbox")
-options.add_argument("--headless")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--disable-extensions")
-options.add_argument("--enable-automation")
-options.add_argument("--disable-browser-side-navigation")
-options.add_argument("--disable-web-security")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--disable-infobars")
-options.add_argument("--disable-gpu")
-options.add_argument("--disable-setuid-sandbox")
-options.add_argument("--disable-software-rasterizer")
-
-
-class StopGrading(Exception):
-    pass
+from grade import (
+    AssignmentBase,
+    By,
+    Keys,
+    Soup,
+    StopGrading,
+    children,
+    make_chrome_driver,
+)
 
 
 def safe_float(value):
@@ -71,11 +23,7 @@ def safe_float(value):
 class Assignment(AssignmentBase):
     def __init__(self, folder):
         AssignmentBase.__init__(self, folder, max_grade=12)
-        url = "file://" + os.path.join(folder, "index.html")
-        print(f"Grading {url}")
-        self.browser = webdriver.Chrome(options=options, service=service)
-        self.goto(url)
-        print("success!")
+        self.browser = make_chrome_driver()
 
     def goto(self, url):
         self.browser.get(url)
@@ -89,7 +37,11 @@ class Assignment(AssignmentBase):
         self._comments.append((points, comment))
 
     def step01(self):
+        print("Start grading index/html")
+        self.goto("file://" + os.path.join(self.folder, "index.html"))
+        print("loading index.html")
         assert self.browser.find_element(By.TAG_NAME, "html")
+        print("loading index.html ... success")
         self.add_comment("HTML is valid", 1)
 
     def step02(self):
@@ -169,9 +121,11 @@ class Assignment(AssignmentBase):
         self.add_comment("The required input fields are read-only.", 1)
 
     def step09(self):
-        test_values = [[("1", "2", "3"), 6],
-                       [("10", "40", "80"), 130],
-                       [("100000","3000","20000"), 123000]]
+        test_values = [
+            [("1", "2", "3"), 6],
+            [("10", "40", "80"), 130],
+            [("100000", "3000", "20000"), 123000],
+        ]
         for (v1, v2, v3), expected in test_values:
             self.refresh()  # Otherwise, autocomplete breaks the test.
             inp1 = self.browser.find_element(By.NAME, value="value-1")
