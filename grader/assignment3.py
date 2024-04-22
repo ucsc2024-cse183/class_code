@@ -141,7 +141,7 @@ class Assignment(AssignmentBase):
             self.refresh()
             buttons = self.get_buttons()
             buttons[1,1].click()
-            while True:
+            for k in range(6):
                 for button in buttons.values():
                     if not button.text.strip():                        
                         button.click()
@@ -155,6 +155,9 @@ class Assignment(AssignmentBase):
                     print("winner", winner)
                     break
                 print()
+            if k == 5:
+                self.add_comment("Got in a loop", 0)
+                raise StopGrading
         print("A strange game. The only winning move is not to play.")
         self.add_comment("Computer never lost", 2)
 
