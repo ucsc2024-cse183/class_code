@@ -35,7 +35,7 @@ class Assignment(AssignmentBase):
 
     def refresh(self):
         self.browser.refresh()
-        self.browser.implicitly_wait(10)
+        self.browser.implicitly_wait(4)
 
     def step01(self):
         "it chould be made of valid HTML and CSS."
@@ -141,7 +141,12 @@ class Assignment(AssignmentBase):
             self.refresh()
             buttons = self.get_buttons()
             buttons[1,1].click()
-            for k in range(6):
+            self.show(buttons)
+            for k in range(4):
+                xos = sum(button.text.strip()=='X' for button in buttons.values())
+                assert xos == k + 1, "Computer did record move"
+                oos = sum(button.text.strip()=='O' for button in buttons.values())
+                assert oos == k + 1, "Computer did not play"
                 for button in buttons.values():
                     if not button.text.strip():                        
                         button.click()
@@ -162,10 +167,9 @@ class Assignment(AssignmentBase):
         self.add_comment("Computer never lost", 2)
 
 
-    def step8(self):
+    def step08(self):
         "there should be a button of class reset that when clicked, resets the game"
         reset = self.browser.find_element(By.CSS_SELECTOR, ".reset")
-        print(reset)
         assert reset, "reset button not found"
         reset.click()
         buttons = self.get_buttons()
