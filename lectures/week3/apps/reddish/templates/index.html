@@ -1,14 +1,28 @@
 [[extend 'layout.html']]
 
+<a role="button" href="[[=URL('post')]]">Post a new Entry</a>
+
 <div class="section">
-  [[for entry in data:]]
+  [[for entry in entries:]]
   <div>
     <h2>[[=entry.title]]</h2>
     <p>[[=entry.description]]</p>
     <div>
+      <span id="v[[=entry.id]]">[[=entry.votes]]</span> <a onclick="vote([[=entry.id]])">+1</a>
       Posted on [[=entry.post_date]] by [[=entry.author.first_name]]
-      <a href="[[=URL('entry')]]">comments</a>
+      <a href="[[=URL('entry', entry.id)]]">comments</a>
     </div>
   </div>
   [[pass]]
 </div>
+
+[[block page_scripts]]
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
+<script>
+  function vote(entry_id) {
+    axios.post("[[=URL('vote')]]/" + entry_id).then(function(res){
+      document.querySelector('#v'+entry_id).innerHTML = res.data.votes;
+    });
+  }
+</script>
+[[end]]

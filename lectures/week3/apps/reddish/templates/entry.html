@@ -1,13 +1,13 @@
 [[extend 'layout.html']]
 
+
 <div class="section">
-    TODO... entry info
-    <h2>[[#=entry.title]]</h2>
-    <p>[[#=entry.description]]</p>
+    <h2>[[=entry.title]]</h2>
+    <p>[[=entry.description]]</p>
 </div>
 
 <div class="section">
-    [[for comment in comments:]]
+  [[for comment in comments:]]
   <div>
     <p>[[=comment.body]]</p>
     <div>
