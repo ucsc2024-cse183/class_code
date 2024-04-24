@@ -162,7 +162,7 @@ class Assignment(AssignmentBase):
                 print()
             if k == 5:
                 self.add_comment("Got in a loop", 0)
-                raise StopGrading
+                return
         print("A strange game. The only winning move is not to play.")
         self.add_comment("Computer never lost", 2)
 
