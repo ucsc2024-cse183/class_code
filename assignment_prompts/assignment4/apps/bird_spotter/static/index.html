@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bird Sightings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <style>
+        /* Additional styles for accordion behavior */
+        .logo {
+            background-color: #59F1C7;
+        }
+
+        .logo img {
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body id="app">
+
+    <section class="section">
+        <div class="container logo">
+            <img src="media/bird-spotter.png" />
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" placeholder="Search or add bird names" v-model="new_bird.name"
+                        v-on:keyup="search()">
+                    <button v-if="selected_birds.length==0" class="button is-info" v-on:click="add_bird()">Add the
+                        Bird</button>
+                </div>
+            </div>
+
+            <div class="list">
+                <article v-for="bird in selected_birds">
+                    <div class="card">
+                        <div class="card-header" v-bind:style="{background: color(bird.name)}">
+                            <div class="card-header-title">{{bird.name}}</div>
+                            <div class="card-content">Sightings: {{bird.sightings}}</div>
+                        </div>
+                        <div class="card-content">
+                            <button class="button is-info" v-on:click="add_sighting(bird)">Add a Sighting</button>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th>Habitat</th>
+                                        <td><input class="input" type="text" v-bind:readonly="editing.current!=bird" v-model="bird.habitat" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Weight(grams)</th>
+                                        <td><input class="input" type="text" v-bind:readonly="editing.current!=bird" v-model="bird.weight" /></td>
+                                    </tr>
+                                </tbody>                                
+                            </table>
+                            <button class="button is-info" v-if="editing.current!=bird" v-on:click="edit(bird)">Edit</button>
+                            <button class="button is-info" v-if="editing.current==bird" v-on:click="save(bird)">Save</button>
+                            <button class="button is-info" v-if="editing.current==bird" v-on:click="cancel()">Cancel</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                Bird sightings Inc.
+            </p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
