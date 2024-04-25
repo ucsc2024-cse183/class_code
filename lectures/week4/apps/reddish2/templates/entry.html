@@ -1,0 +1,20 @@
+[[extend 'layout.html']]
+
+
+<div class="section">
+    <h2>[[=entry.title]]</h2>
+    <p>[[=entry.description]]</p>
+</div>
+
+<div class="section">
+  [[for comment in comments:]]
+  <div>
+    <p>[[=comment.body]]</p>
+    <div>
+      Posted on [[=comment.post_date]] by [[=comment.author.first_name]]      
+    </div>
+  </div>
+  [[pass]]
+  <h2>Post a new comment</h2>
+  [[=form]]
+</div>

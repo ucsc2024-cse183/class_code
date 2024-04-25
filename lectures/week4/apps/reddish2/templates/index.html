@@ -1,0 +1,28 @@
+[[extend 'layout.html']]
+
+<div id="app">
+
+  <section>
+    <input placeholder="title" v-model="new_entry.title"/>
+    <textarea placeholder="title"  v-model="new_entry.description"></textarea>
+    <button v-on:click="post_new_entry()">Post a new Entry</button>
+  </section>
+
+  <div class="section" v-for="entry in entries">
+    <div>
+      <h2>{{entry.title}}</h2>
+      <p>{{entry.description}}</p>
+      <div>
+        <span>{{entry.votes}}</span> <a>+1</a>
+        Posted on {{entry.post_date}} by {{entry.author}}
+        <a>comments</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+[[block page_scripts]]
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="[[=URL('static/js/custom.js')]]"></script>
+[[end]]

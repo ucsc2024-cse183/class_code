@@ -4,7 +4,7 @@ function clone(obj) { return JSON.parse(JSON.stringify(obj)); }
 
 let app = {}
 app.empty_new_bird = {"id": 0, "name": "", "habitat": "", "weight": 0, "sightings": 0},
-app.data = {    
+app.config = {
     data: function() {
         return {
             new_bird: clone(app.empty_new_bird),            
@@ -64,5 +64,5 @@ app.load_data = function() {
     // GET from /bird_spotter/birds {birds: [...]} and store it into app.vue.birds = [...]
 }
 
-app.vue = Vue.createApp(app.data).mount("#app");
+app.vue = Vue.createApp(app.config).mount("#app");
 app.load_data();

@@ -2,7 +2,7 @@ You must complete the provided bird_spotter app. It is a single page app.
 
 The main page is in apps/bird_spotter/static/index.html and in apps/bird_spotter/static/js/index.js
 - `/bird_spotter/` should redirect to `/bird_spotter/static/index.html` or turn it into a template (1 point)
-- in models.py define a database table to store birds, a bird should have an "id", a "name", an "habitat" (string), a "weight" (positive number), and a number of "sightings" (positive number) (1 point)
+- in models.py define a database table to store birds, a "bird" should have an "id", a "name", an "habitat" (string), a "weight" (positive number), and a number of "sightings" (positive number) (1 point)
 - create a POST endpoint `api/birds` to register a new bird as required by index.js (1 point)
 - create a GET endpoint `api/birds` to get birds as required by index.js (1 point)
 - create a POST endpoint `api/birds/{id}/increase_sightings` to increase the number of sightings by 1 (no body in POST) as required by index.js (1 point)
