@@ -13,6 +13,7 @@ RUN apk add chromium-chromedriver
 # upgrade pip
 RUN python -m venv venv
 RUN venv/bin/python -m pip install --upgrade pip
+RUN venv/bin/python -m pip install --upgrade requests
 RUN venv/bin/python -m pip install --upgrade mechanize
 RUN venv/bin/python -m pip install --upgrade BeautifulSoup4
 RUN venv/bin/python -m pip install --upgrade selenium

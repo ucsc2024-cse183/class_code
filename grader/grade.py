@@ -196,6 +196,37 @@ def common_ancestor(a, b):
             return item
     return None
 
+class py4web:
+    def start_server(self, source_apps, app_name, port=8888):
+        print("Starting the server")
+        self.app_name = app_name
+        self.apps_folder = "/tmp/apps"
+        self.url = f"http://127.0.0.1:{port}/{app_name}/"        
+        shutil.rmtree(self.apps_folder, ignore_errors=True)
+        run(f"cp -r {source_apps} {self.apps_folder}")
+        subprocess.run(["rm", "-rf", os.path.join(self.apps_folder, app_name, "databases")])
+        self.server = subprocess.Popen(
+            ["py4web", "run", self.apps_folder, "--port", str(port), "--app_names", app_name],
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        started = False
+        while True:
+            self.server.stdout.flush()
+            line = self.server.stdout.readline().decode().rstrip()
+            print(line)
+            if "[X]" in line:
+                started = True
+            if "127.0.0.1:" in line:                
+                break
+        if not started:
+            print("The app has errors and was unable to start it")
+            raise StopGrading
+        
+
+    def stop_server(self):
+        self.server.kill()
+
+    def __del__(self):
+        self.server.kill()
 
 class AssignmentBase:
     def __init__(self, folder, max_grade):
@@ -204,6 +235,7 @@ class AssignmentBase:
         self._comments = []
 
     def add_comment(self, comment, points=0):
+        print(comment)
         self._comments.append((comment, points))
 
     def grade(self):

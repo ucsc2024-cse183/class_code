@@ -33,6 +33,7 @@ let
         python -m venv $VENV_PATH
       fi
       $VENV_PATH/bin/pip install -U pip
+      $VENV_PATH/bin/pip install -U requests
       $VENV_PATH/bin/pip install -U mechanize
       $VENV_PATH/bin/pip install -U selenium
       $VENV_PATH/bin/pip install -U beautifulsoup4

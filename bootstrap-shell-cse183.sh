@@ -90,6 +90,7 @@ let
         $VENV_PATH/bin/pip install -U -r requirements.txt
       fi
       $VENV_PATH/bin/pip install -U py4web
+      $VENV_PATH/bin/pip install -U requests
       $VENV_PATH/bin/pip install -U webdriver-manager
       source $VENV_PATH/bin/activate
       export PYTHONPATH=$VENV_PATH/${myPython.sitePackages}/:${pythonWithPkgs}/${pythonWithPkgs.sitePackages}:$PYTHONPATH

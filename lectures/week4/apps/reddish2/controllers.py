@@ -43,7 +43,7 @@ def _(entry_id):
     return {"comments": rows.as_list()}
 
 @action("api/entries/<entry_id>/comments", method="POST")
-@action.uses(db, auth.user)
+@action.uses(db,auth.user)
 def _(entry_id):
     db.comment.entry_id.default = entry_id
     return db.comment.validate_and_insert(**request.json)
