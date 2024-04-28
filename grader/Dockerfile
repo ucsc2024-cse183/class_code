@@ -11,13 +11,12 @@ RUN apk add chromium
 RUN apk add chromium-chromedriver
 
 # upgrade pip
-RUN python -m venv venv
-RUN venv/bin/python -m pip install --upgrade pip
-RUN venv/bin/python -m pip install --upgrade requests
-RUN venv/bin/python -m pip install --upgrade mechanize
-RUN venv/bin/python -m pip install --upgrade BeautifulSoup4
-RUN venv/bin/python -m pip install --upgrade selenium
-RUN venv/bin/python -m pip install --upgrade py4web
+RUN python -m pip install --upgrade pip
+RUN python -m pip install --upgrade requests
+RUN python -m pip install --upgrade mechanize
+RUN python -m pip install --upgrade BeautifulSoup4
+RUN python -m pip install --upgrade selenium
+RUN python -m pip install --upgrade py4web
 
 ADD test.py test.py
-CMD ["venv/bin/python", "test.py"]
+CMD ["python", "test.py"]
