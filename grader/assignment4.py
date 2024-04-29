@@ -181,8 +181,7 @@ class Assignment(AssignmentBase, py4web):
         self.add_comment("DELETE API works", 1.0)
 
     def step07(self):
-        self.goto(self.url)
-        fetch("POST", self.url_birds, {"name": "seagull"})
+        print(fetch("POST", self.url_birds, {"name": "seagull"}))
         time.sleep(1)
         self.goto(self.url)
         titles = self.find_all(".card-header-title")
