@@ -182,12 +182,9 @@ class Assignment(AssignmentBase, py4web):
 
     def step07(self):
         print(fetch("POST", self.url_birds, {"name": "seagull"}))
-        self.goto(self.url)
-        for k in range(5):
-            time.sleep(1)
-            titles = self.find_all(".card-header-title")
-            print(titles)
-            if titles: break
+        time.sleep(1)
+        self.refresh()
+        titles = self.find_all(".card-header-title")
         assert any(
             "seagull" in t.text for t in titles
         ), "Store a seagull but page does not show it upon reloading"
