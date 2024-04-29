@@ -56,6 +56,7 @@ class Assignment(AssignmentBase, py4web):
     def refresh(self):
         self.browser.refresh()
         self.browser.implicitly_wait(4)
+        time.sleep(1)
 
     def step01(self):
         "it chould be made of valid HTML and CSS."
