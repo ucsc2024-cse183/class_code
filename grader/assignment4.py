@@ -39,6 +39,7 @@ class Assignment(AssignmentBase, py4web):
         print(f"Loading {url}")
         self.browser.get(url)
         self.browser.implicitly_wait(10)
+        time.sleep(1)
 
     def find_all(self, css):
         print(f'Looking for "{css}" selector in page')
@@ -182,6 +183,7 @@ class Assignment(AssignmentBase, py4web):
     def step07(self):
         self.goto(self.url)
         fetch("POST", self.url_birds, {"name": "seagull"})
+        time.sleep(1)
         self.goto(self.url)
         titles = self.find_all(".card-header-title")
         print(titles)
@@ -209,6 +211,7 @@ class Assignment(AssignmentBase, py4web):
         count1 = [bird["sightings"] for bird in birds if bird["name"] == "pigeon"][0]
         buttons = self.find_all("button")
         buttons[0].click()
+        time.sleep(1)
         birds = fetch("GET", self.url_birds).get("birds")
         print(birds)
         count2 = [bird["sightings"] for bird in birds if bird["name"] == "pigeon"][0]
@@ -224,7 +227,6 @@ class Assignment(AssignmentBase, py4web):
         # click the edit button, 0 is the add sightings button
         buttons = self.find_all("button")
         buttons[1].click()
-
         time.sleep(1)
         # fill the input fields
         inputs = self.find_all("input")
@@ -244,7 +246,7 @@ class Assignment(AssignmentBase, py4web):
     def step11(self):
         "it chould be made of valid HTML and CSS."
         print("step11")
-        print("checking for input validations")
+        print("checking for input validations")        
         res = fetch("POST", self.url_birds, {"name": "pigeon"})
         assert res["errors"], "Expected an error"
         res = fetch("PUT", self.url + "api/birds/1", {"weight": -1.0})
