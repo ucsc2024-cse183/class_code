@@ -64,7 +64,7 @@ class Assignment(AssignmentBase, py4web):
         self.goto(self.url)
         self.find(".logo")
         input = self.find("input")
-        input.send_keys("penguin")
+        input.send_keys("penguin")        
         self.find("button")
         self.add_comment("Page loads correctly", 1.0)
 
@@ -183,9 +183,11 @@ class Assignment(AssignmentBase, py4web):
 
     def step07(self):
         print(fetch("POST", self.url_birds, {"name": "seagull"}))
-        time.sleep(1)
+        time.sleep(2)
         self.refresh()
+        time.sleep(2)
         titles = self.find_all(".card-header-title")
+        print(titles)
         assert any(
             "seagull" in t.text for t in titles
         ), "Store a seagull but page does not show it upon reloading"
@@ -194,8 +196,10 @@ class Assignment(AssignmentBase, py4web):
     def step08(self):
         inputs = self.find_all("input")
         inputs[0].send_keys("albatross")
+        time.sleep(1)
         buttons = self.find_all("button")
         buttons[0].click()
+        time.sleep(1)
         titles = self.find_all(".card-header-title")
         assert any(
             "albatross" in t.text for t in titles
@@ -222,7 +226,6 @@ class Assignment(AssignmentBase, py4web):
     def step10(self):
         # select the bird
         inputs = self.find_all("input")
-        time.sleep(1)
         # click the edit button, 0 is the add sightings button
         buttons = self.find_all("button")
         buttons[1].click()
