@@ -41,11 +41,6 @@ class Assignment(AssignmentBase, py4web):
         self.browser.implicitly_wait(10)
         time.sleep(1)
 
-    def find_all(self, css):
-        print(f'Looking for "{css}" selector in page')
-        elements = self.browser.find_elements(By.CSS_SELECTOR, css)
-        return elements
-
     def find(self, css):
         print(f'Looking for "{css}" selector in page')
         element = self.browser.find_element(By.CSS_SELECTOR, css)
@@ -185,8 +180,11 @@ class Assignment(AssignmentBase, py4web):
         print(fetch("POST", self.url_birds, {"name": "seagull"}))
         time.sleep(2)
         self.refresh()
+        self.refresh()
         time.sleep(2)
-        titles = self.find_all(".card-header-title")
+        divs = self.browser.find_elements(By.TAG_NAME, "div")
+        print(len(divs))
+        titles = self.browser.find_elements(By.CLASS_NAME, "card-header-title")
         print(titles)
         assert any(
             "seagull" in t.text for t in titles
@@ -194,25 +192,25 @@ class Assignment(AssignmentBase, py4web):
         self.add_comment("page loads birds correctly", 0.5)
 
     def step08(self):
-        inputs = self.find_all("input")
+        inputs = self.browser.find_elements(By.TAG_NAME,"input")
         inputs[0].send_keys("albatross")
         time.sleep(1)
-        buttons = self.find_all("button")
+        buttons = self.browser.find_elements(By.TAG_NAME,"button")
         buttons[0].click()
         time.sleep(1)
-        titles = self.find_all(".card-header-title")
+        titles = self.browser.find_elements(By.CLASS_NAME,"card-header-title")
         assert any(
             "albatross" in t.text for t in titles
         ), "Store a seagull but page does not show it upon reloading"
         self.add_comment("page creates new bird correctly", 0.5)
 
     def step09(self):
-        inputs = self.find_all("input")
+        inputs = self.browser.find_elements(By.TAG_NAME, "input")
         inputs[0].send_keys("pigeon")
         birds = fetch("GET", self.url_birds).get("birds")
         print(birds)
         count1 = [bird["sightings"] for bird in birds if bird["name"] == "pigeon"][0]
-        buttons = self.find_all("button")
+        buttons = self.browser.find_elements(By.TAG_NAME, "button")
         buttons[0].click()
         time.sleep(1)
         birds = fetch("GET", self.url_birds).get("birds")
@@ -225,17 +223,17 @@ class Assignment(AssignmentBase, py4web):
 
     def step10(self):
         # select the bird
-        inputs = self.find_all("input")
+        inputs = self.browser.find_elements(By.TAG_NAME,"input")
         # click the edit button, 0 is the add sightings button
-        buttons = self.find_all("button")
+        buttons = self.browser.find_elements(By.TAG_NAME,"button")
         buttons[1].click()
         time.sleep(1)
         # fill the input fields
-        inputs = self.find_all("input")
+        inputs = self.browser.find_elements(By.TAG_NAME,"input")
         inputs[1].send_keys("city")
         inputs[2].send_keys("4")
         # click the save button, 0 is the add sightings button
-        buttons = self.find_all("button")
+        buttons = self.browser.find_elements(By.TAG_NAME,"button")
         buttons[1].click()
         time.sleep(1)
         # check the database using APIs
@@ -257,18 +255,18 @@ class Assignment(AssignmentBase, py4web):
 
     def step12(self):
         # select the bird
-        inputs = self.find_all("input")
+        inputs = self.browser.find_elements(By.TAG_NAME,"input")
         time.sleep(1)
         # click the edit button, 0 is the add sightings button
-        buttons = self.find_all("button")
+        buttons = self.browser.find_elements(By.TAG_NAME,"button")
         buttons[1].click()
 
         time.sleep(1)
         # fill the input fields
-        inputs = self.find_all("input")
+        inputs = self.browser.find_elements(By.TAG_NAME,"input")
         inputs[2].send_keys("-1")
         # click the save button, 0 is the add sightings button
-        buttons = self.find_all("button")
+        buttons = self.browser.find_elements(By.TAG_NAME,"button")
         buttons[1].click()
         time.sleep(1)
         element = self.find(".errors")
