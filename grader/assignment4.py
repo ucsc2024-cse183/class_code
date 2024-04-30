@@ -2,6 +2,7 @@ import importlib
 import os
 import sys
 import time
+import traceback
 
 import requests
 from grade import (AssignmentBase, By, Keys, Soup, StopGrading, children,
@@ -184,7 +185,8 @@ class Assignment(AssignmentBase, py4web):
         print(self.find("html").get_attribute("innerHTML"))
         try:
             print(self.browser.get_log('browser'))
-        except: pass
+        except:
+            print(traceback.format_exc())
         titles = self.browser.find_elements(By.CLASS_NAME, "card-header-title")
         print(titles)
         assert any(
