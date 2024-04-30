@@ -179,9 +179,9 @@ class Assignment(AssignmentBase, py4web):
 
     def step07(self):
         print(fetch("POST", self.url_birds, {"name": "seagull"}))
-        time.sleep(1)
-        self.refresh()
-        time.sleep(1)
+        time.sleep(2)
+        self.browser.execute_script("app.load_data();");
+        time.sleep(2)
         print(self.find("html").get_attribute("innerHTML"))
         try:
             print(self.browser.get_log('browser'))
