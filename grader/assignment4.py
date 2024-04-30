@@ -178,10 +178,9 @@ class Assignment(AssignmentBase, py4web):
 
     def step07(self):
         print(fetch("POST", self.url_birds, {"name": "seagull"}))
-        time.sleep(2)
+        time.sleep(5)
         self.refresh()
-        self.refresh()
-        time.sleep(2)
+        time.sleep(5)
         divs = self.browser.find_elements(By.TAG_NAME, "div")
         print(len(divs))
         titles = self.browser.find_elements(By.CLASS_NAME, "card-header-title")
@@ -212,7 +211,7 @@ class Assignment(AssignmentBase, py4web):
         count1 = [bird["sightings"] for bird in birds if bird["name"] == "pigeon"][0]
         buttons = self.browser.find_elements(By.TAG_NAME, "button")
         buttons[0].click()
-        time.sleep(1)
+        time.sleep(5)
         birds = fetch("GET", self.url_birds).get("birds")
         print(birds)
         count2 = [bird["sightings"] for bird in birds if bird["name"] == "pigeon"][0]
@@ -235,7 +234,7 @@ class Assignment(AssignmentBase, py4web):
         # click the save button, 0 is the add sightings button
         buttons = self.browser.find_elements(By.TAG_NAME,"button")
         buttons[1].click()
-        time.sleep(1)
+        time.sleep(5)
         # check the database using APIs
         birds = fetch("GET", self.url_birds).get("birds")
         print(birds)
@@ -260,7 +259,6 @@ class Assignment(AssignmentBase, py4web):
         # click the edit button, 0 is the add sightings button
         buttons = self.browser.find_elements(By.TAG_NAME,"button")
         buttons[1].click()
-
         time.sleep(1)
         # fill the input fields
         inputs = self.browser.find_elements(By.TAG_NAME,"input")
@@ -268,7 +266,7 @@ class Assignment(AssignmentBase, py4web):
         # click the save button, 0 is the add sightings button
         buttons = self.browser.find_elements(By.TAG_NAME,"button")
         buttons[1].click()
-        time.sleep(1)
+        time.sleep(5)
         element = self.find(".errors")
         assert (
             element and "weight" in element.text
