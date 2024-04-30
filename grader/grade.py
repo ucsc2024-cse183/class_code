@@ -9,7 +9,6 @@ import tempfile
 import traceback
 from importlib.machinery import SourceFileLoader
 
-import mechanize
 import selenium
 from bs4 import BeautifulSoup as Soup
 from selenium import webdriver
