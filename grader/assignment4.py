@@ -178,9 +178,10 @@ class Assignment(AssignmentBase, py4web):
 
     def step07(self):
         print(fetch("POST", self.url_birds, {"name": "seagull"}))
-        time.sleep(5)
+        time.sleep(1)
         self.refresh()
-        time.sleep(5)
+        time.sleep(1)
+        print(self.find("html").get_attribute("innerHTML"))
         divs = self.browser.find_elements(By.TAG_NAME, "div")
         print(len(divs))
         titles = self.browser.find_elements(By.CLASS_NAME, "card-header-title")
