@@ -182,8 +182,9 @@ class Assignment(AssignmentBase, py4web):
         self.refresh()
         time.sleep(1)
         print(self.find("html").get_attribute("innerHTML"))
-        divs = self.browser.find_elements(By.TAG_NAME, "div")
-        print(len(divs))
+        try:
+            print(self.browser.get_log('browser'))
+        except: pass
         titles = self.browser.find_elements(By.CLASS_NAME, "card-header-title")
         print(titles)
         assert any(
