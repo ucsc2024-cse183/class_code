@@ -60,7 +60,6 @@ class Assignment(AssignmentBase, py4web):
         self.goto(self.url)
         self.find(".logo")
         input = self.find("input")
-        input.send_keys("penguin")        
         self.find("button")
         self.add_comment("Page loads correctly", 1.0)
 
