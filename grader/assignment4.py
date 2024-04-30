@@ -40,7 +40,7 @@ class Assignment(AssignmentBase, py4web):
         print(f"Loading {url}")
         self.browser.get(url)
         self.browser.implicitly_wait(10)
-        time.sleep(1)
+        time.sleep(4)
 
     def find(self, css):
         print(f'Looking for "{css}" selector in page')
@@ -52,7 +52,7 @@ class Assignment(AssignmentBase, py4web):
     def refresh(self):
         self.browser.refresh()
         self.browser.implicitly_wait(4)
-        time.sleep(1)
+        time.sleep(4)
 
     def step01(self):
         "it chould be made of valid HTML and CSS."
@@ -178,16 +178,11 @@ class Assignment(AssignmentBase, py4web):
 
     def step07(self):
         print(fetch("POST", self.url_birds, {"name": "seagull"}))
-        time.sleep(2)
-        self.browser.execute_script("app.load_data();");
-        time.sleep(2)
+        self.refresh()
+        print("HTML I see:")
         print(self.find("html").get_attribute("innerHTML"))
-        try:
-            print(self.browser.get_log('browser'))
-        except:
-            print(traceback.format_exc())
         titles = self.browser.find_elements(By.CLASS_NAME, "card-header-title")
-        print(titles)
+        print("birds bound in page", len(titles))
         assert any(
             "seagull" in t.text for t in titles
         ), "Store a seagull but page does not show it upon reloading"
