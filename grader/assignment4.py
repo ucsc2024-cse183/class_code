@@ -90,7 +90,9 @@ class Assignment(AssignmentBase, py4web):
         "Checking api"
         # self.url = "http://127.0.0.1:8000/bird_spotter/"
         self.url_birds = self.url + "api/birds"
-        assert fetch("GET", self.url_birds) == {"birds": []}
+        res = fetch("GET", self.url_birds)
+        print("I got", res)
+        assert res == {"birds": []}
         print("GET api seems to work but no data yet")
         print("adding a bird...")
         assert fetch("POST", self.url_birds, {"name": "pigeon"}) == {

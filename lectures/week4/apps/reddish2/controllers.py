@@ -17,7 +17,8 @@ def _():
 @action("api/entries", method="POST")
 @action.uses(db, auth.user)
 def _():
-    return db.entry.validate_and_insert(**request.json)
+    data = request.json    
+    return db.entry.validate_and_insert(**data)
 
 @action("api/entries/<entry_id>", method="GET")
 @action.uses(db)
@@ -34,7 +35,8 @@ def _():
 @action("api/entries/<entry_id>", method="PUT")
 @action.uses(db, auth.user)
 def _(entry_id):
-    return db(db.entry.id==entry_id).validate_and_update(**request.json)
+    data = request.json
+    return db.entry.validate_and_update(entry_id, **data)    
 
 @action("api/entries/<entry_id>/comments", method="GET")
 @action.uses(db)

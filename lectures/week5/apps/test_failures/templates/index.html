@@ -1,0 +1,16 @@
+[[extend 'layout.html']]
+
+<div class="section">
+  <div class="vars">
+    <button onclick="submit()">Click me</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
+<script>
+  function submit() {
+    axios.post("/test_failures/api/birds/abc").then(function(res){
+      console.log(res);
+    });
+  }
+</script>

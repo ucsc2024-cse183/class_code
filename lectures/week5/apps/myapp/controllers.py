@@ -11,7 +11,7 @@ def index():
     table = TABLE()
     for row in db(db.person).select():
         table.append(TR(TD(row.name), TD(A("edit", _href=URL("edit", row.id)))))
-    return locals()
+    return {"mybutton":mybutton, "table": table}
 
 @action("create", method=["GET", "POST"])
 @action.uses("generic.html", db)
@@ -35,3 +35,8 @@ def edit(person_id):
 def manage(path=None):
     grid = Grid(path, db.person.name.startswith("M"))
     return locals()
+
+@action("player/<filename>")
+@action.uses("player.html")
+def player(filename):
+    return {"filename": filename}
