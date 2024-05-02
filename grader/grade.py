@@ -202,8 +202,11 @@ class py4web:
         print("Starting the server")
         self.app_name = app_name
         self.apps_folder = os.path.join(tempfile.mkdtemp(), "apps")
-        self.url = f"http://127.0.0.1:{port}/{app_name}/"
+        self.url = f"http://127.0.0.1:{port}/{app_name}/"        
         shutil.rmtree(self.apps_folder, ignore_errors=True)
+        if not os.path.exists(source_apps):
+            print(f"{source_apps} does not exist!")
+            raise StopGrading
         run(f"cp -r {source_apps} {self.apps_folder}")
         subprocess.run(
             ["rm", "-rf", os.path.join(self.apps_folder, app_name, "databases")]
@@ -264,9 +267,10 @@ class AssignmentBase:
         self._comments.append((comment, points))
 
     def grade(self):
-        steps = [getattr(self, name) for name in dir(self) if name.startswith("step")]
-        for k, step in enumerate(steps):
-            print("step", k, "...")
+        step_names = [name for name in dir(self) if name.startswith("step")]
+        for step_name in step_names:
+            step = getattr(self, step_name)
+            print("\nRunning", step_name, "=" * 60)
             try:
                 step()
             except StopGrading:
@@ -275,11 +279,11 @@ class AssignmentBase:
                 print(err)
                 break
             except AssertionError as error:
-                self.add_comment(f"Step{k+1}: " + str(error), 0)
+                self.add_comment(f"{step_name}: " + str(error), 0)
             except:
                 print(traceback.format_exc())
                 self.add_comment(
-                    (step.__doc__ or f"Step{k+1}:") + " (Unable to grade)", 0
+                    (step.__doc__ or f"{step_name}:") + " (Unable to grade)", 0
                 )
         grade = 0
         for comment, points in self._comments:
