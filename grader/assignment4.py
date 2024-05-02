@@ -82,7 +82,7 @@ class Assignment(AssignmentBase, py4web):
         assert bird.name.type == "string", "db.bird.name is not a string"
         assert bird.sightings.type == "integer", "db.bird.sightings is not an integer"
         assert bird.habitat.type == "string", "db.bird.habitat is not a string"
-        assert bird.weight.type == "float", "db.bird.weight is not a string"
+        assert bird.weight.type == "float", "db.bird.weight is not a float"
         self.bird = bird
         self.add_comment("Model defined correctly", 1.0)
 
