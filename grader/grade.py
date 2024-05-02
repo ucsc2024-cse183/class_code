@@ -208,8 +208,8 @@ class py4web:
         subprocess.run(
             ["rm", "-rf", os.path.join(self.apps_folder, app_name, "databases")]
         )
-        self.server = subprocess.Popen(
-            [
+        self.server = None
+        cmd = [
                 "py4web",
                 "run",
                 self.apps_folder,
@@ -217,11 +217,18 @@ class py4web:
                 str(port),
                 "--app_names",
                 app_name,
-            ],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-        )
+            ]
+        print("Running:", " ".join(cmd))
+        try:
+            self.server = subprocess.Popen(
+                cmd,
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+            )
+        except Exception:
+            print("Unable to start py4web")
+            raise StopGrading
         started = False
         while True:
             self.server.stdout.flush()
@@ -236,8 +243,11 @@ class py4web:
             raise StopGrading
 
     def stop_server(self):
-        self.server.kill()
-        shutil.rmtree(self.apps_folder)
+        if self.server:
+            self.server.kill()
+            self.server = None
+            shutil.rmtree(self.apps_folder)
+            
 
     def __del__(self):
         self.stop_server()
