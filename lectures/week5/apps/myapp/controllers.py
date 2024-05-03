@@ -25,7 +25,7 @@ def create():
 @action.uses("generic.html", db)
 def edit(person_id):    
     form = Form(db.person,person_id,deletable=True,show_id=False)
-    if form.accepted:
+    if form.accepted or form.deleted:
         redirect(URL("index"))
     return locals()
 
