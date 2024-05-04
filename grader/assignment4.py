@@ -99,11 +99,13 @@ class Assignment(AssignmentBase, py4web):
             "id": 1,
             "errors": {},
         }
-        assert fetch("GET", self.url_birds) == {
+        res = fetch("GET", self.url_birds)
+        expected = {
             "birds": [
                 {"id": 1, "name": "pigeon", "habitat": "", "weight": 0, "sightings": 0}
             ]
         }
+        assert res == expected, f"Expected this exact answer {expected}"
         self.add_comment("GET and POST API work", 2.0)
 
     def step04(self):
