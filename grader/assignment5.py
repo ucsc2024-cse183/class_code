@@ -35,8 +35,6 @@ def fetch(method, url, body=None, cookies=None):
 class Assignment(AssignmentBase, py4web):
     def __init__(self, folder):
         AssignmentBase.__init__(self, folder, max_grade=12)
-        self.start_server(folder + "/apps", "tagged_posts")
-        self.browser = make_chrome_driver()
 
     def goto(self, url):
         print(f"Loading {url}")
@@ -59,6 +57,8 @@ class Assignment(AssignmentBase, py4web):
     def step01(self):
         "it chould be made of valid HTML and CSS."
         print("Start grading index/html")
+        self.start_server(folder + "/apps", "tagged_posts")
+        self.browser = make_chrome_driver()
         self.goto(self.url)
         # TODO: check page forces redirect to login
 

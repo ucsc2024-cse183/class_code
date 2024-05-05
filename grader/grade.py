@@ -171,11 +171,6 @@ def check_student_repo():
 # Grading logic
 ############################################################
 
-
-class StopGrading(Exception):
-    pass
-
-
 def children(element):
     return [e for e in element if not isinstance(e, str)]
 
