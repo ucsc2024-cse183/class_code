@@ -248,7 +248,7 @@ class py4web:
             raise StopGrading
 
     def stop_server(self):
-        if self.server:
+        if getattr(self, "server", None):
             self.server.kill()
             self.server = None
             shutil.rmtree(self.apps_folder)
