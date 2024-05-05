@@ -9,7 +9,7 @@ assignment=$(basename $1)
 # if have podman use it instead of docker, it is better
 which podman && cmd=podman || cmd=docker
 # build and run docker with custom command
-$cmd build -t selenium -f Dockerfile $location && \
+$cmd build --quiet -t selenium -f Dockerfile $location && \
 $cmd run -it --rm \
          --mount type=bind,source=$location/..,target=/class_code,readonly \
          --mount type=bind,source=$student_code,target=/student_code,readonly \
