@@ -5,8 +5,16 @@ import time
 import traceback
 
 import requests
-from grade import (AssignmentBase, By, Keys, Soup, StopGrading, children,
-                   make_chrome_driver, py4web)
+from grade import (
+    AssignmentBase,
+    By,
+    Keys,
+    Soup,
+    StopGrading,
+    children,
+    make_chrome_driver,
+    py4web,
+)
 
 
 def fetch(method, url, body=None):
@@ -193,13 +201,13 @@ class Assignment(AssignmentBase, py4web):
         self.add_comment("page loads birds correctly", 0.5)
 
     def step08(self):
-        inputs = self.browser.find_elements(By.TAG_NAME,"input")
+        inputs = self.browser.find_elements(By.TAG_NAME, "input")
         inputs[0].send_keys("albatross")
         time.sleep(1)
-        buttons = self.browser.find_elements(By.TAG_NAME,"button")
+        buttons = self.browser.find_elements(By.TAG_NAME, "button")
         buttons[0].click()
         time.sleep(1)
-        titles = self.browser.find_elements(By.CLASS_NAME,"card-header-title")
+        titles = self.browser.find_elements(By.CLASS_NAME, "card-header-title")
         assert any(
             "albatross" in t.text for t in titles
         ), "Store a seagull but page does not show it upon reloading"
@@ -224,17 +232,17 @@ class Assignment(AssignmentBase, py4web):
 
     def step10(self):
         # select the bird
-        inputs = self.browser.find_elements(By.TAG_NAME,"input")
+        inputs = self.browser.find_elements(By.TAG_NAME, "input")
         # click the edit button, 0 is the add sightings button
-        buttons = self.browser.find_elements(By.TAG_NAME,"button")
+        buttons = self.browser.find_elements(By.TAG_NAME, "button")
         buttons[1].click()
         time.sleep(1)
         # fill the input fields
-        inputs = self.browser.find_elements(By.TAG_NAME,"input")
+        inputs = self.browser.find_elements(By.TAG_NAME, "input")
         inputs[1].send_keys("city")
         inputs[2].send_keys("4")
         # click the save button, 0 is the add sightings button
-        buttons = self.browser.find_elements(By.TAG_NAME,"button")
+        buttons = self.browser.find_elements(By.TAG_NAME, "button")
         buttons[1].click()
         time.sleep(5)
         # check the database using APIs
@@ -247,7 +255,7 @@ class Assignment(AssignmentBase, py4web):
     def step11(self):
         "it chould be made of valid HTML and CSS."
         print("step11")
-        print("checking for input validations")        
+        print("checking for input validations")
         res = fetch("POST", self.url_birds, {"name": "pigeon"})
         assert res["errors"], "Expected an error"
         res = fetch("PUT", self.url + "api/birds/1", {"weight": -1.0})
@@ -256,17 +264,17 @@ class Assignment(AssignmentBase, py4web):
 
     def step12(self):
         # select the bird
-        inputs = self.browser.find_elements(By.TAG_NAME,"input")
+        inputs = self.browser.find_elements(By.TAG_NAME, "input")
         time.sleep(1)
         # click the edit button, 0 is the add sightings button
-        buttons = self.browser.find_elements(By.TAG_NAME,"button")
+        buttons = self.browser.find_elements(By.TAG_NAME, "button")
         buttons[1].click()
         time.sleep(1)
         # fill the input fields
-        inputs = self.browser.find_elements(By.TAG_NAME,"input")
+        inputs = self.browser.find_elements(By.TAG_NAME, "input")
         inputs[2].send_keys("-1")
         # click the save button, 0 is the add sightings button
-        buttons = self.browser.find_elements(By.TAG_NAME,"button")
+        buttons = self.browser.find_elements(By.TAG_NAME, "button")
         buttons[1].click()
         time.sleep(5)
         element = self.find(".errors")

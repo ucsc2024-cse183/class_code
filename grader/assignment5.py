@@ -5,8 +5,16 @@ import time
 import traceback
 
 import requests
-from grade import (AssignmentBase, By, Keys, Soup, StopGrading, children,
-                   make_chrome_driver, py4web)
+from grade import (
+    AssignmentBase,
+    By,
+    Keys,
+    Soup,
+    StopGrading,
+    children,
+    make_chrome_driver,
+    py4web,
+)
 
 
 def fetch(method, url, body=None, cookies=None):
@@ -27,7 +35,9 @@ def fetch(method, url, body=None, cookies=None):
     except Exception:
         json = None
     if json is None:
-        assert False, f"received:\n{repr(response.content[:80].decode()+'...')}\nand this is invalid JSON"
+        assert (
+            False
+        ), f"received:\n{repr(response.content[:80].decode()+'...')}\nand this is invalid JSON"
     print(f"JSON response {json}")
     return json
 
@@ -35,6 +45,8 @@ def fetch(method, url, body=None, cookies=None):
 class Assignment(AssignmentBase, py4web):
     def __init__(self, folder):
         AssignmentBase.__init__(self, folder, max_grade=12)
+        self.start_server(folder + "/apps", "tagged_posts")
+        self.browser = make_chrome_driver()
 
     def goto(self, url):
         print(f"Loading {url}")
@@ -57,8 +69,6 @@ class Assignment(AssignmentBase, py4web):
     def step01(self):
         "it chould be made of valid HTML and CSS."
         print("Start grading index/html")
-        self.start_server(folder + "/apps", "tagged_posts")
-        self.browser = make_chrome_driver()
         self.goto(self.url)
         # TODO: check page forces redirect to login
 
@@ -76,8 +86,14 @@ class Assignment(AssignmentBase, py4web):
         db = testmodule.db
         self.db = db
         db.auth_user.password.writable = True
-        res = db.auth_user.validate_and_insert(username="tester", email="tester@example.com", password="1234qwerQWER!@#$", first_name="Tester", last_name="TESTER")        
-        db.commit()        
+        res = db.auth_user.validate_and_insert(
+            username="tester",
+            email="tester@example.com",
+            password="1234qwerQWER!@#$",
+            first_name="Tester",
+            last_name="TESTER",
+        )
+        db.commit()
         print(res)
         assert res.get("id") == 1, "unable to create user"
         print(db.auth_user[1])
@@ -85,7 +101,9 @@ class Assignment(AssignmentBase, py4web):
         email = self.find("[name='email']")
         password = self.find("[name='password']")
         submit = self.find("[type='submit']")
-        assert email and password and submit, "expected a login page, but did not find it"
+        assert (
+            email and password and submit
+        ), "expected a login page, but did not find it"
         email.send_keys("tester")
         password.send_keys("1234qwerQWER!@#$")
         submit.click()
@@ -95,20 +113,30 @@ class Assignment(AssignmentBase, py4web):
         set_cookies = self.browser.get_cookies()
         assert len(set_cookies) == 1, "server cookies not working"
         self.cookies = {"tagged_posts_session": set_cookies[0]["value"]}
-        assert "post_item" in testmodule.db.tables, "table post_item not found in models.py"
+        assert (
+            "post_item" in testmodule.db.tables
+        ), "table post_item not found in models.py"
         post_item = testmodule.db.post_item
         assert "content" in post_item.fields, "post_item has no content field"
         assert "created_on" in post_item.fields, "post_item has no created_on field"
         assert "created_by" in post_item.fields, "post_item has no created_by field"
-        assert post_item.created_on.type == "datetime", "post_item.created_on must be a datetime"
-        assert post_item.created_by.type == "reference auth_user", "post_item.created_by must be a reference"
+        assert (
+            post_item.created_on.type == "datetime"
+        ), "post_item.created_on must be a datetime"
+        assert (
+            post_item.created_by.type == "reference auth_user"
+        ), "post_item.created_by must be a reference"
         self.add_comment("Table post_item defined correctly", 1.0)
 
-        assert "tag_item" in testmodule.db.tables, "table tag_item not found in models.py"
+        assert (
+            "tag_item" in testmodule.db.tables
+        ), "table tag_item not found in models.py"
         tag_item = testmodule.db.tag_item
         assert "name" in tag_item.fields, "tag_item has no name field"
         assert "post_item_id" in tag_item.fields, "tag_item has no post_item_id field"
-        assert tag_item.post_item_id.type == "reference post_item", "tag_item.post_item_id must be a reference"
+        assert (
+            tag_item.post_item_id.type == "reference post_item"
+        ), "tag_item.post_item_id must be a reference"
         self.add_comment("Table tag_item defined correctly", 1.0)
 
     def step03(self):
@@ -125,31 +153,43 @@ class Assignment(AssignmentBase, py4web):
             assert False, "I should not have been able to access API without Login"
 
         content = "This is a message about #fun #games"
-        res = fetch("POST", self.url + "api/posts", {"content": content}, cookies=self.cookies)
+        res = fetch(
+            "POST", self.url + "api/posts", {"content": content}, cookies=self.cookies
+        )
         assert res.get("id") == 1, "unable to store a post_item using API"
 
         time.sleep(1)
 
         content = "This is a message about #boring #games"
-        res = fetch("POST", self.url + "api/posts", {"content": content}, cookies=self.cookies)
+        res = fetch(
+            "POST", self.url + "api/posts", {"content": content}, cookies=self.cookies
+        )
         assert res.get("id") == 2, "unable to store a post_item using API"
         self.add_comment("POST to /api/posts works", 1.0)
 
         res = fetch("GET", self.url + "api/tags", cookies=self.cookies)
-        assert res == {"tags": ["boring", "fun", "games"]}, "Did not receive correct tags"
+        assert res == {
+            "tags": ["boring", "fun", "games"]
+        }, "Did not receive correct tags"
         self.add_comment("GET to /api/tags works", 1.0)
 
         res = fetch("GET", self.url + "api/posts", cookies=self.cookies)
         assert "posts" in res, 'expected {"posts": [...]}'
         assert len(res["posts"]) == 2, "expected to posts in response"
-        assert "#boring" in res["posts"][0]["content"], "expected the first post to containt #boring"
-        assert "#fun" in res["posts"][1]["content"], "expected the second post to containt #boring"
+        assert (
+            "#boring" in res["posts"][0]["content"]
+        ), "expected the first post to containt #boring"
+        assert (
+            "#fun" in res["posts"][1]["content"]
+        ), "expected the second post to containt #boring"
         self.add_comment("GET to /api/posts works", 0.4)
 
         res = fetch("GET", self.url + "api/posts?tags=fun", cookies=self.cookies)
         assert "posts" in res, 'expected {"posts": [...]}'
         assert len(res["posts"]) == 1, "expected to posts in response"
-        assert "#fun" in res["posts"][0]["content"], "expected the second post to containt #boring"
+        assert (
+            "#fun" in res["posts"][0]["content"]
+        ), "expected the second post to containt #boring"
         self.add_comment("GET to /api/posts?tags=fun works", 0.3)
 
         res = fetch("GET", self.url + "api/posts?tags=fun,boring", cookies=self.cookies)
@@ -168,7 +208,9 @@ class Assignment(AssignmentBase, py4web):
         self.find(".feed")
         items = self.browser.find_elements(By.CSS_SELECTOR, ".feed .post_item")
         assert len(items) == 1, "Exepcted to find one post_item"
-        assert "#boring" in items[0].get_attribute("innerHTML"), "Exepcted to find a post_item"
+        assert "#boring" in items[0].get_attribute(
+            "innerHTML"
+        ), "Exepcted to find a post_item"
         self.add_comment("Feed column works", 1.0)
 
     def step05(self):
@@ -192,8 +234,12 @@ class Assignment(AssignmentBase, py4web):
         self.find(".feed")
         items = self.browser.find_elements(By.CSS_SELECTOR, ".feed .post_item")
         assert len(items) == 2, "Exepcted to find two post_items"
-        assert "#hello" in items[0].get_attribute("innerHTML"), "Exepcted to find a post_item"
-        assert "#world" in items[0].get_attribute("innerHTML"), "Exepcted to find a post_item"
+        assert "#hello" in items[0].get_attribute(
+            "innerHTML"
+        ), "Exepcted to find a post_item"
+        assert "#world" in items[0].get_attribute(
+            "innerHTML"
+        ), "Exepcted to find a post_item"
         self.add_comment("Posting to the feed works", 0.5)
 
         tags = self.browser.find_elements(By.CSS_SELECTOR, ".tags .tag")
@@ -207,8 +253,12 @@ class Assignment(AssignmentBase, py4web):
         time.sleep(1)
         items = self.browser.find_elements(By.CSS_SELECTOR, ".feed .post_item")
         assert len(items) == 1, "Exepcted to find one post_item"
-        assert "#boring" in items[0].get_attribute("innerHTML"), "Exepcted to find a post_item"
-        assert "#games" in items[0].get_attribute("innerHTML"), "Exepcted to find a post_item"
+        assert "#boring" in items[0].get_attribute(
+            "innerHTML"
+        ), "Exepcted to find a post_item"
+        assert "#games" in items[0].get_attribute(
+            "innerHTML"
+        ), "Exepcted to find a post_item"
         self.add_comment("Tags toggling works", 0.5)
 
         tags[0].click()
@@ -231,5 +281,3 @@ class Assignment(AssignmentBase, py4web):
         items = self.browser.find_elements(By.CSS_SELECTOR, ".feed .post_item")
         assert len(items) == 1, "Expected the item to be deleted"
         self.add_comment("Deleting uding the feed button works", 1.0)
-
-        

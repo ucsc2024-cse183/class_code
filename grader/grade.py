@@ -171,6 +171,7 @@ def check_student_repo():
 # Grading logic
 ############################################################
 
+
 def children(element):
     return [e for e in element if not isinstance(e, str)]
 
@@ -199,7 +200,7 @@ class py4web:
         print("Starting the server")
         self.app_name = app_name
         self.apps_folder = os.path.join(tempfile.mkdtemp(), "apps")
-        self.url = f"http://127.0.0.1:{port}/{app_name}/"        
+        self.url = f"http://127.0.0.1:{port}/{app_name}/"
         shutil.rmtree(self.apps_folder, ignore_errors=True)
         if not os.path.exists(source_apps):
             print(f"{source_apps} does not exist!")
@@ -210,14 +211,14 @@ class py4web:
         )
         self.server = None
         cmd = [
-                "py4web",
-                "run",
-                self.apps_folder,
-                "--port",
-                str(port),
-                "--app_names",
-                app_name,
-            ]
+            "py4web",
+            "run",
+            self.apps_folder,
+            "--port",
+            str(port),
+            "--app_names",
+            app_name,
+        ]
         print("Running:", " ".join(cmd))
         try:
             self.server = subprocess.Popen(
@@ -247,7 +248,6 @@ class py4web:
             self.server.kill()
             self.server = None
             shutil.rmtree(self.apps_folder)
-            
 
     def __del__(self):
         self.stop_server()
@@ -306,10 +306,17 @@ def grade(rel_path):
         print(traceback.format_exc())
         print(colors.FAIL + f"Error: unable to load {assignment_file}" + colors.END)
         sys.exit(1)
-    assignment = getattr(module, "Assignment")(os.getcwd())
     num = 0
+    assignment_class = getattr(module, "Assignment", None)
+    if not assignment_class:
+        print("Grader not found!")
+        return 0
     try:
+        assignment = assignment_class(os.getcwd())
         num = assignment.grade()
+    except StopGrading:
+        # this only happens when error is in constructor
+        return 0
     except:
         print(traceback.format_exc())
     print(f"End grading {assignment_name}")
