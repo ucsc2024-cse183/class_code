@@ -8,6 +8,7 @@ git clone https://mdipierro:$(cat ~/token)@github.com/ucsc2024-cse183/$1-code.gi
 path=`pwd`/$1-code/$2
 echo "checkouts info..."
 find ./ -name ".git" -type d | sed "s,.git$,," | xargs -i sh -c "cd {}; echo -n {}; git rev-parse HEAD"
+find $1-code/$2 -print
 echo "grading..."
 cd class_code/grader
 ./grade.sh $path && echo '{"status": "success"}' > ../../task.output.json
