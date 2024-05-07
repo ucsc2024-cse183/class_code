@@ -1,0 +1,58 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Template Name: Gallerised
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title>My URL Shortner</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="[[=URL('static', 'gallerised/layout/styles/layout.css')]]" type="text/css" />
+  <!-- / s3slider -->
+</head>
+
+<body id="top">
+  <div class="wrapper col1">
+    <div id="header">
+      <div id="topnav">
+        <ul>
+          [[if globals().get('user',{}):]]
+          <li class="last"><a
+              href="[[=URL('auth/logout')]]">Logout</a><span>[[=globals().get('user',{}).get('username')]]</span></li>
+          [[else:]]
+          <li class="last"><a href="[[=URL('auth/login')]]">Login</a><span>Login</span></li>
+          [[pass]]
+
+          <li><a href="[[=URL('main')]]">Make</a><span>a new short URL</span></li>
+          <li><a href="[[=URL('manage')]]">Manage</a><span>my URLs</span></li>
+        </ul>
+      </div>
+      <div class="fl_left">
+        <h1><a href="[[=URL('index')]]">My URL Shortner</a></h1>
+      </div>
+      <br class="clear" />
+    </div>
+  </div>
+  <!-- ####################################################################################################### -->
+  <div class="wrapper col2">
+    <div style="padding: 50px; font-size: 1.2em">
+      [[include]]
+    </div>
+  </div>
+  <!-- ####################################################################################################### -->
+  <div class="wrapper col5">
+    <div id="footer">
+      <p class="fl_left">Copyright &copy; 2014 - All Rights Reserved - <a href="#">Domain Name</a></p>
+      <p class="fl_right">Template by <a target="_blank" href="http://www.os-templates.com/"
+          title="Free Website Templates">OS Templates</a></p>
+      <br class="clear" />
+    </div>
+  </div>
+</body>
+
+</html>

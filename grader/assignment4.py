@@ -194,7 +194,7 @@ class Assignment(AssignmentBase, py4web):
         print("HTML I see:")
         print(self.find("html").get_attribute("innerHTML"))
         titles = self.browser.find_elements(By.CLASS_NAME, "card-header-title")
-        print("birds bound in page", len(titles))
+        print("birds found in page", len(titles))
         assert any(
             "seagull" in t.text for t in titles
         ), "Store a seagull but page does not show it upon reloading"
