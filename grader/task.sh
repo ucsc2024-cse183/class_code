@@ -1,4 +1,5 @@
 set -e
+echo "run ${CI_RUN_ID}"
 echo "cleaning up memory..."
 docker stop $(docker ps -a  | grep selenium | awk '{print $1}')	|| true
 docker container prune --force || true
