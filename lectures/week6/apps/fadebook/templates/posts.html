@@ -1,0 +1,20 @@
+[[for item in items:]]
+<div class="post">
+  <a href="[[=URL('home', item.created_by)]]">
+    [[=item.created_by.first_name]] 
+    [[=item.created_by.last_name]]
+  </a>
+  on [[=item.created_on]] says
+  <blockquote>[[=item.body]]</blockquote>
+  <i class="fa-solid fa-thumbs-up" data-url="[[=URL('like',item.id)]]" data-liked="[[=item.liked]]" onclick="like(this)"></i>
+</div>
+[[pass]]
+
+<script>
+  function like(element) {
+      // post to the url specified and element's data-url and change the load status
+      Q.post(element.dataset.url).then(function(res){
+	      element.dataset.liked = res.json().liked;
+      });
+  }
+</Script>
