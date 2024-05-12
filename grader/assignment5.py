@@ -76,6 +76,7 @@ class Assignment(AssignmentBase, py4web):
         "found the index page"
         sys.path.append(os.path.join(self.apps_folder))
         env = {}
+        self.cookies = None
         try:
             exec("import tagged_posts.models as testmodule", env)
         except Exception:
@@ -111,7 +112,8 @@ class Assignment(AssignmentBase, py4web):
         assert "tester" in self.browser.page_source, "unable to login"
         assert "logout" in self.browser.page_source, "unable to login"
         set_cookies = self.browser.get_cookies()
-        assert len(set_cookies) == 1, "server cookies not working"
+        assert len(set_cookies) >= 1, "server cookies not working"
+        assert len(set_cookies) == 1, "apps/ folder contains too many apps, shuold be only tagged_posts"
         self.cookies = {"tagged_posts_session": set_cookies[0]["value"]}
         assert (
             "post_item" in testmodule.db.tables
@@ -141,6 +143,8 @@ class Assignment(AssignmentBase, py4web):
 
     def step03(self):
         "Checking api"
+        if not self.cookies:
+            raise StopGrading
         db = self.db
         # self.url = "http://127.0.0.1:8000/bird_spotter/"
         try:
