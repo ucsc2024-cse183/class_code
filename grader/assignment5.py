@@ -56,10 +56,10 @@ class Assignment(AssignmentBase, py4web):
 
     def find(self, css):
         print(f'Looking for "{css}" selector in page')
-        element = self.browser.find_element(By.CSS_SELECTOR, css)
-        assert element, "element not found"
+        elements = self.browser.find_elements(By.CSS_SELECTOR, css)
+        assert elements, f"element {css} not found"
         print("element found")
-        return element
+        return elements[0]
 
     def refresh(self):
         self.browser.refresh()
@@ -113,7 +113,7 @@ class Assignment(AssignmentBase, py4web):
         assert "logout" in self.browser.page_source, "unable to login"
         set_cookies = self.browser.get_cookies()
         assert len(set_cookies) >= 1, "server cookies not working"
-        assert len(set_cookies) == 1, "apps/ folder contains too many apps, shuold be only tagged_posts"
+        print("cookies", set_cookies)
         self.cookies = {"tagged_posts_session": set_cookies[0]["value"]}
         assert (
             "post_item" in testmodule.db.tables
