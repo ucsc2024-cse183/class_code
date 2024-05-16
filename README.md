@@ -158,10 +158,11 @@ Consequences: Any instance of plagiarism will be taken very seriously. Depending
 
 ### Week 9 - May 27
 - Single server deployment (docker compose + caddy)
-- Scaling web applications
+- Help finalize projects
 
 ### Week 10 - June 3
-- Help finalize projects
+- Scaling web applications
+- Optional topics
 
 ## Reading Suggestions
 
