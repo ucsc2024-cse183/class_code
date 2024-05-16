@@ -54,7 +54,8 @@ This class also requires familiarity with basic git commands (close, commit, pus
 - April 28 - Assignment 3 due
 - May 5 - Assignment 4 due
 - May 19 - Assignment 5 due
-- June 9 - Final project due
+- June 5 - Final project due
+- June 9 - Crowdgrader project review due
 
 ### Assignment submissions
 
@@ -148,11 +149,12 @@ Consequences: Any instance of plagiarism will be taken very seriously. Depending
 
 ### Week 7 - May 13
 - Handling file uploads
-- Examples of Vue components
+- Security
 
 ### Week 8 - May 20
-- Internationalization (i18n) and pluralization (p13n)
+- Examples of Vue components
 - Running tasks in background
+- Internationalization (i18n) and pluralization (p13n)
 
 ### Week 9 - May 27
 - Single server deployment (docker compose + caddy)
