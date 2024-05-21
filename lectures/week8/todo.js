@@ -27,11 +27,18 @@ app.config.setup = function() {
 app.config.methods = {};
 // method to mv a new item from the form into the list of items
 app.config.methods.add_new_item = function() {
-    if (app.vue.new_item.title.trim() !== "") {
-        app.vue.items.push(clone(this.new_item));
-        app.vue.new_item = app.make_item();
+    if (this.new_item.title.trim() !== "") {
+        this.items.push(clone(this.new_item));
+        this.new_item = app.make_item();
     }
     app.save();
+};
+// method to remove an item
+app.config.methods.remove = function(item_to_rm) {
+    this.items = this.items.filter(function(item)
+    {
+        return item != item_to_rm;
+    });
 };
 
 // save and load methods (the save in the browser memory)
@@ -52,6 +59,7 @@ app.proxy = Vue.createApp(app.config);
 app.proxy.component("my-article", {
     props: ["item"],
     setup: function(vars) {return {}; },
+    emits: ['remove'],
     methods: {
         // method to rotate (0->1->2->0) the state of an item (to change color)
         rotate: function(item) {
@@ -60,11 +68,7 @@ app.proxy.component("my-article", {
         },
         // method to remove the specified item
         remove: function(item_to_rm) {
-            app.vue.items = app.vue.items.filter(function(item)
-            {
-                return item != item_to_rm;
-            });
-        
+            this.$emit("remove", item_to_rm);       
             app.save();
         }
     },

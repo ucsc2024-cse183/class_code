@@ -37,7 +37,7 @@
           </div>
           <div class="field">
             <div class="control">
-                <button class="button" v-on:click="add_new_item()">add item</button>
+                  <button class="button" v-on:click="add_new_item()">add item</button>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
       <div class="container">
         <!-- Contains the list of items -->
         <h2 class="subtitle">Todo Items</h2>
-        <my-article :item="item" :app="app" v-for="item in items"></my-article>
+        <my-article :item="item" v-for="item in items" @remove="remove"></my-article>
       </div>
     </section>
     <!-- Load vue -->
