@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html data-theme="dark"><!-- use Bulma dark theme -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TODO APP</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <style>      
+      article ~ article { margin-bottom: 10px } /* give same margin between items */
+    </style>
+  </head>
+  <!-- body will be controlled by Vue -->
+  <body id="myapp">
+    <section class="section">
+      <div class="container">
+        <h1 class="title">        
+          TODO APP
+        </h1>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <!-- Contains the input form -->
+        <h2 class="subtitle">Add item</h2>
+        <div style="max-width:400px">
+          <div class="field">
+            <label>Title</label>
+            <div class="control">
+                <input class="input" v-model="new_item.title" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Description</label>
+            <div class="control">
+                <textarea class="input" v-model="new_item.description"></textarea>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+                  <button class="button" v-on:click="add_new_item()">add item</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <!-- Contains the list of items -->
+        <h2 class="subtitle">Todo Items</h2>
+        <my-article :item="item" v-for="item in items"
+        @message="receiveEmit"
+        ></my-article>
+      </div>
+    </section>
+    <!-- Load vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Load custom code -->
+    <script src="todo.js"></script>
+  </body>
+</html>
