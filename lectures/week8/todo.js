@@ -46,13 +46,12 @@ app.load = function() {
 }
 
 // make the vue app
-app.tmp = Vue.createApp(app.config);
+app.proxy = Vue.createApp(app.config);
 
 // article component
-app.tmp.component("my-article", {
+app.proxy.component("my-article", {
     props: ["item"],
     setup: function(vars) {return {}; },
-    emits: ['message'],
     methods: {
         // method to rotate (0->1->2->0) the state of an item (to change color)
         rotate: function(item) {
@@ -78,6 +77,6 @@ app.tmp.component("my-article", {
     <div class="message-body" v-text="item.description"></div>
     </article>`
 });
-app.vue = app.tmp.mount("#myapp");
+app.vue = app.proxy.mount("#myapp");
 // then reload any saved data
 app.load();
