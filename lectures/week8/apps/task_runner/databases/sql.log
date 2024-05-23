@@ -33,3 +33,20 @@ CREATE TABLE "mytask"(
 success!
 success!
 success!
+timestamp: 2024-05-22T22:59:55.945233
+ALTER TABLE "mytask" ADD "task" CHAR(512);
+timestamp: 2024-05-22T22:59:55.951589
+ALTER TABLE "mytask" ADD "input" TEXT;
+timestamp: 2024-05-22T22:59:55.957999
+ALTER TABLE "mytask" ADD "output" TEXT;
+timestamp: 2024-05-22T22:59:55.962381
+ALTER TABLE "mytask" ADD "status" CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
