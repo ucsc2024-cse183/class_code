@@ -98,7 +98,6 @@ auth.param.block_previous_password_num = 3
 auth.param.default_login_enabled = settings.DEFAULT_LOGIN_ENABLED
 auth.define_tables()
 auth.fix_actions()
-db.auth_user._format = lambda user: f"{first_name} {last_name}"
 flash = auth.flash
 
 # #######################################################
