@@ -13,7 +13,7 @@ Every user should be able to:
   - deadline
   - status
   - created by self
-  - posted by self
+  - assigned to self
   - created by a specific user
   - assigned to a specific user
   - created by any managed user

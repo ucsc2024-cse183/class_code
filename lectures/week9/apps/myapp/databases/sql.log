@@ -1,4 +1,4 @@
-timestamp: 2024-05-13T19:15:24.998166
+timestamp: 2024-05-29T20:20:31.897746
 CREATE TABLE "auth_user"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "username" CHAR(512) UNIQUE,
@@ -12,36 +12,19 @@ CREATE TABLE "auth_user"(
     "past_passwords_hash" TEXT
 );
 success!
-timestamp: 2024-05-13T19:15:25.005351
+timestamp: 2024-05-29T20:20:31.906041
 CREATE TABLE "auth_user_tag_groups"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
     "tagpath" CHAR(512),
     "record_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  
 );
 success!
-timestamp: 2024-05-13T19:52:07.347781
-CREATE TABLE "py4web_session"(
+timestamp: 2024-05-29T20:20:31.917748
+CREATE TABLE "manage"(
     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "rkey" CHAR(512),
-    "rvalue" TEXT,
-    "expiration" INTEGER,
-    "created_on" TIMESTAMP,
-    "expires_on" TIMESTAMP
+    "managed" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  
 );
 success!
-timestamp: 2024-05-29T19:49:30.976722
-CREATE TABLE "task"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "name" CHAR(512),
-    "date_datetime" TIMESTAMP
-);
-success!
-DROP TABLE "task";
-success!
-timestamp: 2024-05-29T19:50:09.983186
-CREATE TABLE "task"(
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "name" CHAR(512),
-    "deadline" TIMESTAMP
-);
+timestamp: 2024-05-29T21:14:18.219306
+ALTER TABLE "auth_user" ADD "managed" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE ON UPDATE CASCADE  ;
 success!
