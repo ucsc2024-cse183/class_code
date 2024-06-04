@@ -1,3 +1,11 @@
+Submission rules:
+- By Thursday June 6 at 11:59 you will need to download your project (from the Dashboard page)
+  and upload it into https://www.crowdgrader.org/ (details to be provided)
+  ONLY THE LEAD OF THE GROUP SHOULD DO THE UPLOAD
+- By Sunday June 10 at 11:59 you will need to review 4 projects from colleagues assigned to you.
+
+Please edit the project metadata.json and make sure the list of collaborators is correct.
+
 You final project consists of creating a task management app. Tasks have a title, a desciption, a signature (created_on, created_by), a deadline, and a status (pending, ackowledged, rejected, completed, failed). Task also have comments.
 
 You you create tasks and assign them to yourself and/or other users. Every user must have a manager (another user), except the CEO, and every user can edit their own tasks as well the tasks created by people he/she manages.
