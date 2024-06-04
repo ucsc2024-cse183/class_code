@@ -1,0 +1,7 @@
+demo.unofficialtools.com:80 {
+     reverse_proxy py4web:8000
+}
+
+demo.unofficialtools.com:443 {
+     reverse_proxy py4web:8000
+}

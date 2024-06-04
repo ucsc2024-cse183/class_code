@@ -1,0 +1,35 @@
+services:
+  caddy:
+    container_name: caddy
+    image: caddy:2.7-alpine
+    restart: unless-stopped
+    links:
+      - py4web
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - caddy-config:/config
+      - caddy-data:/data
+      - ./compose-caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./compose-caddy/index.html:/usr/share/caddy/index.html
+  py4web:
+    container_name: py4web
+    image: python:3.11
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./compose-py4web/apps:/usr/share/apps
+    expose:
+      - 8000
+    environment:
+      - HOSTNAME=demo.unofficialtools.com
+    command: bash -c "
+      pip install -U py4web &&
+      py4web run --port 8000 --host 0.0.0.0 -p /root/password.txt --errorlog :stdout /usr/share/apps &&
+      echo exited."
+
+volumes:
+  caddy-config:
+  caddy-data:

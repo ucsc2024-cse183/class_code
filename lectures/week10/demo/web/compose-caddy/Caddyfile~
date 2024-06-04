@@ -1,0 +1,10 @@
+unofficialtools.com:80 {
+     reverse_proxy py4web:8000
+}
+
+unofficialtools.com:443 {
+     reverse_proxy py4web:8000
+}
+
+#    root * /usr/share/caddy
+#    file_server
